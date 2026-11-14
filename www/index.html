@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Unsaid.AI - Trợ Lý Linh Vật</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body class="theme-female">
+  <!-- MÀN HÌNH CHỌN GIỚI TÍNH & ĐỘ TUỔI -->
+  <div id="setupScreen">
+    <div class="setup-card">
+      <div style="font-size: 50px;">✨</div>
+      <h2>Chọn Người Bạn Đồng Hành</h2>
+      <p>Cá nhân hóa linh vật và không gian trò chuyện của bạn</p>
+      <div class="section-title">1. Giới tính</div>
+      <div class="option-group">
+        <button class="opt-btn gender-btn active" data-gender="female" onclick="selectGender('female')">🌸 Nữ</button>
+        <button class="opt-btn gender-btn" data-gender="male" onclick="selectGender('male')">⚡ Nam</button>
+      </div>
+      <div class="section-title">2. Độ tuổi</div>
+      <div class="option-group">
+        <button class="opt-btn age-btn active" data-age="6-12" onclick="selectAge('6-12')">6 – 12 tuổi</button>
+        <button class="opt-btn age-btn" data-age="13-17" onclick="selectAge('13-17')">13 – 17 tuổi</button>
+      </div>
+      <button class="start-btn" onclick="startApp()">Khám Phá Không Gian AI 🚀</button>
+    </div>
+  </div>
+  <!-- GIAO DIỆN CHÍNH -->
+  <div class="app" id="appRoot">
+    <header class="topbar">
+      <div class="brand">
+        <div class="brand-icon" id="headerIcon">🧸</div>
+        <div>
+          <h1 id="headerTitle">Trợ Lý Linh Vật</h1>
+          <p id="subGreeting">🟢 Đang hoạt động thông minh</p>
+        </div>
+      </div>
+     <button class="reset-btn" onclick="clearChat()">🗑️ Xóa tin nhắn</button>
+   </header>
+  <div class="main-layout">
+      <!-- CỘT TRÁI: LINH VẬT & CÁC CHỨC NĂNG -->
+      <section class="left-panel">
+        <div class="mascot-stage" onclick="touchMascot()">
+          <div class="mascot" id="mascotEmoji">🧸</div>
+        </div>
+        <div class="mascot-name" id="mascotName">Bé Gấu Mây</div>        
+        <div class="action-buttons">
+          <button class="act-btn" onclick="sendQuickAction('Chào hỏi')">✨ Chào hỏi</button>
+          <button class="act-btn" onclick="sendQuickAction('Kể chuyện')">📖 Kể chuyện</button>
+          <button class="act-btn" onclick="sendQuickAction('Tâm sự')">💬 Tâm sự</button>
+          <button class="act-btn" onclick="sendQuickAction('Học tập')">💡 Học tập</button> 
+          <button class="act-btn" onclick="extractMainIdeas()" style="grid-column: span 2;">📌 Lọc ý chính</button>
+        </div>
+      </section>
+      <!-- CỘT PHẢI: KHUNG CHAT ĐỘC LẬP -->
+      <section class="right-chat-panel"> 
+             <div class="chat-panel-header">
+                <span class="chat-panel-title">💬 Không gian trò chuyện</span>
+                <div style="display: flex; gap: 6px;">
+                    <button class="fullscreen-btn" onclick="clearChat()" title="Xóa đoạn chat">🗑 Xóa</button>
+                    <button class="fullscreen-btn" id="fullscreenBtn" onclick="toggleFullChat()" title="Mở rộng khung chat">⛶ Toàn màn hình</button>
+                </div>
+            </div>
+        <div class="chat-display" id="chatDisplay">
+          <div class="bubble ai" id="initialGreeting">Xin chào! Tớ đã sẵn sàng trò chuyện cùng bạn. Hãy gõ nội dung bên dưới nhé! 💛</div>
+        </div> 
+                    <div class="fullchat-quick-actions">
+        <button onclick="sendQuickAction('Chào hỏi')">✨ Chào hỏi</button>
+        <button onclick="sendQuickAction('Kể chuyện')">📖 Kể chuyện</button>
+        <button onclick="sendQuickAction('Tâm sự')">💬 Tâm sự</button>
+        <button onclick="sendQuickAction('Học tập')">💡 Học tập</button>
+        <button onclick="extractMainIdeas()">📌 Lọc ý chính</button>
+    </div>
+        <div class="chat-input-box">
+            <button class="mic-btn" id="micBtn" onclick="toggleSpeech()" title="Gọi thoại với AI">
+          <svg id="callIconSvg" viewBox="0 0 24 24" width="20" height="20" fill="currentColor">
+          <path d="M20.01 15.38c-1.23 0-2.42-.2-3.53-.56a.977.977 0 0 0-1.01.24l-1.57 1.97c-2.83-1.35-5.48-3.9-6.89-6.83l1.95-1.66c.27-.28.35-.67.24-1.02-.37-1.11-.56-2.3-.56-3.53 0-.54-.45-.99-.99-.99H4.19C3.65 3 3 3.24 3 3.99 3 13.28 10.73 21 20.01 21c.71 0 .99-.63.99-1.18v-3.45c0-.54-.45-.99-.99-.99z"/>
+          </svg>
+          </button>
+          <input type="text" id="userInput" placeholder="Nhập tin nhắn với AI..." onkeypress="checkEnter(event)">
+          <button class="send-btn" onclick="sendMessage()">Gửi 🚀</button>
+        </div>
+      </section>
+    </div>
+  </div>
+  <script src="script.js"></script>
+</body>
+</html>
