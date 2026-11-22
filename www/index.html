@@ -6,7 +6,8 @@
     <title>Unsaid.AI - Trợ Lý Linh Vật</title>
     <link rel="stylesheet" href="style.css">
 </head>
-<body class="theme-female">
+<body class="theme-female"> 
+<canvas id="weatherCanvas"></canvas> 
   <!-- MÀN HÌNH CHỌN GIỚI TÍNH & ĐỘ TUỔI -->
   <div id="setupScreen">
     <div class="setup-card">
@@ -36,23 +37,247 @@
           <p id="subGreeting">🟢 Đang hoạt động thông minh</p>
         </div>
       </div>
-     <button class="reset-btn" onclick="clearChat()">🗑️ Xóa tin nhắn</button>
+<div style="display: flex; gap: 8px; align-items: center;">
+    <button class="reset-btn" onclick="clearChat()">🗑 Xóa tin nhắn</button>
+    <button class="settings-top-btn" onclick="openSettings()">⚙️ Cài đặt</button>
+</div>
    </header>
   <div class="main-layout">
-      <!-- CỘT TRÁI: LINH VẬT & CÁC CHỨC NĂNG -->
-      <section class="left-panel">
-        <div class="mascot-stage" onclick="touchMascot()">
-          <div class="mascot" id="mascotEmoji">🧸</div>
+        <!-- CỘT TRÁI: 3 TAB (LINH VẬT | NUÔI PET | CÂY & NHẠC) -->
+        <section class="left-panel">
+            <div class="left-tabs">
+                <button class="l-tab active" onclick="switchLeftTab('mascot', this)">🧸 Linh vật</button>
+                <button class="l-tab" onclick="switchLeftTab('pet', this)">🐾 Nuôi Pet</button>
+                <button class="l-tab" onclick="switchLeftTab('garden', this)">🌱 Cây & Nhạc</button>
+            </div>
+
+            <!-- TAB 1: LINH VẬT TRÒ CHUYỆN -->
+            <div id="tab-mascot" class="tab-pane active">
+                <div class="mascot-stage" onclick="touchMascot()">
+                    <div class="mascot" id="mascotEmoji">🧸</div>
+                </div>
+                <div class="mascot-name" id="mascotName">Bé Gấu Mây</div>
+                <div class="action-buttons">
+                    <button class="act-btn" onclick="sendQuickAction('Chào hỏi')">✨ Chào hỏi</button>
+                    <button class="act-btn" onclick="sendQuickAction('Kể chuyện')">📖 Kể chuyện</button>
+                    <button class="act-btn" onclick="sendQuickAction('Tâm sự')">💬 Tâm sự</button>
+                    <button class="act-btn" onclick="sendQuickAction('Học tập')">💡 Học tập</button>
+                    <button class="act-btn" onclick="sendQuickAction('Câu đố vui')">🧩 Câu đố vui</button>
+                    <button class="act-btn" onclick="extractMainIdeas()">📌 Lọc ý chính</button>
+                </div>
+            </div>
+
+        <!-- TAB 2: MỤC NUÔI PET RIÊNG -->
+        <div id="tab-pet" class="tab-pane" style="display: none; width: 100%; flex-direction: column; gap: 8px;">
+          <!-- Bảng EXP, Ngày nuôi & Chuỗi -->
+          <div class="pet-stat-box">
+            <div style="display: flex; justify-content: space-between; font-size: 12px; font-weight: 700;">
+              <span id="petLevelLabel">Lv.1 (Sơ sinh)</span>
+              <span id="petExpText">0 / 100 EXP</span>
+            </div>
+            <div class="exp-bar-bg"><div id="petExpFill" class="exp-bar-fill" style="width: 0%;"></div></div>
+            
+            <div style="display: flex; justify-content: space-between; margin-top: 6px; font-size: 11.5px; font-weight: 600;">
+              <span id="petTotalDaysBadge">📅 Đã nuôi: 1 ngày</span>
+              <span id="petStreakBadge">🔥 Chuỗi: 1 ngày</span>
+            </div>
+
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 5px; font-size: 11.5px;">
+              <button onclick="renamePet()" class="mini-link-btn">✏️ Đổi tên Pet</button>
+              <button id="restoreStreakBtn" onclick="handleRestoreStreak()" class="restore-streak-btn" style="display: none;">
+                🩹 Bù chuỗi (0/3)
+              </button>
+            </div>
+          </div>
+
+          <!-- 4 Khu vực sinh hoạt -->
+          <div class="pet-rooms-grid">
+            <button class="room-btn active" onclick="switchPetRoom('dining', this)">🍽️ Nhà ăn</button>
+            <button class="room-btn" onclick="switchPetRoom('bedroom', this)">🛏️ Phòng ngủ</button>
+            <button class="room-btn" onclick="switchPetRoom('bathroom', this)">🛁 Phòng tắm</button>
+            <button class="room-btn" onclick="switchPetRoom('park', this)">🌳 Công viên</button>
+          </div>
+
+          <!-- Nhật ký điểm danh & Đổi trang phục -->
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 6px;">
+            <button class="act-btn" onclick="openPetDiaryModal()">📅 Nhật ký & Quà</button>
+            <button class="act-btn" onclick="cyclePetOutfit()">👕 Đổi trang phục</button>
+          </div>
+
+          <!-- Liên kết Linh vật AI hướng dẫn -->
+          <button class="act-btn" style="width: 100%; background: var(--primary-soft); color: var(--primary);" onclick="askAIForPetGuide()">
+            🤖 Nhờ Linh vật hướng dẫn
+          </button>
+
+          <!-- Sổ ghi chú giấc mơ -->
+          <div class="pet-dream-box">
+            <div style="font-size: 11.5px; font-weight: 700; margin-bottom: 3px;">💭 Giấc mơ gần nhất của Pet:</div>
+            <div id="petDreamNote" style="font-size: 11.5px; font-style: italic; color: var(--text-muted); line-height: 1.35;">
+              "Bé chưa ngủ giấc nào, hãy đưa bé vào Phòng ngủ nhé..."
+            </div>
+          </div>
         </div>
-        <div class="mascot-name" id="mascotName">Bé Gấu Mây</div>        
-        <div class="action-buttons">
-          <button class="act-btn" onclick="sendQuickAction('Chào hỏi')">✨ Chào hỏi</button>
-          <button class="act-btn" onclick="sendQuickAction('Kể chuyện')">📖 Kể chuyện</button>
-          <button class="act-btn" onclick="sendQuickAction('Tâm sự')">💬 Tâm sự</button>
-          <button class="act-btn" onclick="sendQuickAction('Học tập')">💡 Học tập</button> 
-          <button class="act-btn" onclick="extractMainIdeas()" style="grid-column: span 2;">📌 Lọc ý chính</button>
+
+        <!-- TAB 3: NÔNG TRẠI & HỘP NHẠC THƯ GIÃN -->
+        <div id="tab-garden" class="tab-pane" style="display: none; width: 100%; flex-direction: column; gap: 10px;">
+          <div class="pet-stat-box">
+            <div style="font-size: 12.5px; font-weight: 700; margin-bottom: 6px;">🌾 Quản lý Nông Trại</div>
+            <div style="font-size: 12px; color: var(--text-muted); line-height: 1.45; margin-bottom: 8px;">
+              Gieo hạt và tưới nước trực tiếp trên <b>6 ô đất bên phải</b>. Thu hoạch nông sản để bán lấy Xu hoặc đổi thành món ngon cho Pet!
+            </div>
+            <div class="farm-big-nav-grid">
+              <button class="farm-nav-tile tile-inv" onclick="openGardenModal('inventory')">
+                <span class="tile-emoji">🎒</span>
+                <b>Kho Đồ</b>
+                <small>Lương thực & Hạt</small>
+              </button>
+              <button class="farm-nav-tile tile-shop" onclick="openGardenModal('shop')">
+                <span class="tile-emoji">🏪</span>
+                <b>Cửa Hàng</b>
+                <small>Bán Xu & Đổi món</small>
+              </button>
+            </div>
+          </div>
+
+          <div class="music-box-card">
+            <div class="music-title">🎵 Hộp Nhạc Thư Giãn</div>
+            <div id="musicTrackName" class="music-sub">Giai điệu: Đêm Sao Yên Bình</div>
+            <div class="music-controls">
+              <button id="musicToggleBtn" class="mini-action-btn" onclick="toggleMusicBox()">▶️ Phát nhạc</button>
+              <button class="mini-action-btn" onclick="nextMusicTrack()">⏭️ Đổi bài</button>
+            </div>
+          </div>
         </div>
-      </section>
+        </section> 
+                <!-- CỘT PHẢI THAY THẾ: KHU VỰC NUÔI PET -->
+        <section id="rightPetArena" class="right-chat-panel widgetable-room room-dining" style="display: none; position: relative; overflow: hidden;">
+           <div class="chat-panel-header" style="z-index: 15;">
+            <span class="chat-panel-title" id="petRoomHeaderTitle">🍽️ Nhà ăn ấm cúng</span>
+            <span id="petLocationBadge" class="location-status-pill">📍 Bé đang ở: Nhà ăn</span>
+          </div>
+
+          <div id="roomFullScenery" class="room-scenery">
+            <div class="room-window">
+              <div class="window-pane"></div>
+              <div class="window-pane"></div>
+            </div>
+            <div id="roomFurnitureLayer" class="room-furniture-layer"></div>
+            <div class="room-floor">
+              <div class="room-rug"></div>
+            </div>
+          </div>
+
+          <div id="eggHatchStage" class="pet-center-stage" style="z-index: 10;">
+            <div id="gachaEggCard" class="gacha-egg-board">
+              <div class="gacha-banner">TRỨNG ĐỒNG HÀNH</div>
+              <div id="mysteryEgg" class="egg-2d-oval">🥚</div>
+              <button id="hatchActionBtn" class="gacha-green-btn" onclick="startEggHatchVFX()">ẤP TRỨNG ✨</button>
+            </div>
+
+            <div id="hatchSunburstVFX" class="sunburst-vfx" style="display: none;"></div>
+
+            <div id="starterPetChoices" class="starter-choices-panel" style="display: none;">
+              <div style="font-weight: 800; font-size: 15px; color: #1e293b; margin-bottom: 12px;">🎉 Chọn người bạn nhỏ của cậu:</div>
+              <div style="display: flex; gap: 12px; justify-content: center;">
+                <button class="choice-pet-card" onclick="adoptStarterPet('cat')">
+                  <div class="mini-preview-pet">🐱</div>
+                  <b>Mèo Mướp</b>
+                </button>
+                <button class="choice-pet-card" onclick="adoptStarterPet('dog')">
+                  <div class="mini-preview-pet">🐶</div>
+                  <b>Cún Bông</b>
+                </button>
+                <button class="choice-pet-card" onclick="adoptStarterPet('duck')">
+                  <div class="mini-preview-pet">🦆</div>
+                  <b>Vịt Vàng</b>
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <div id="activePetStage" class="pet-center-stage" style="display: none; z-index: 10;">
+            <div id="petSpeechBubble" class="widgetable-bubble">Nhìn vào mắt đằng ấy, thấy cả một thế giới màu hồng 💖</div>
+
+            <div id="petCharacterBox" class="pet-character-wrap" onclick="strokePet()">
+              <div id="petSvgContainer" style="width: 150px; height: 150px;"></div>
+            </div>
+            
+            <div style="display: flex; align-items: center; gap: 6px; margin-top: 4px; z-index: 12;">
+              <span id="petNameTag" class="mascot-name" style="margin: 0;">Mèo Mướp</span>
+              <span id="petTraitBadge" class="pet-trait-pill">⚡ Tinh nghịch</span>
+            </div>
+
+            <div id="roomActionControls" class="room-action-bar" style="z-index: 12;"></div>
+
+            <div id="petRanAwayNotice" style="display: none; text-align: center; background: rgba(255,255,255,0.92); padding: 18px; border-radius: 20px; border: 2px solid #fecaca;">
+              <div style="font-size: 44px; margin-bottom: 6px;">🐾💨</div>
+              <p id="petRanAwayText" style="font-weight: 700; color: #dc2626; margin-bottom: 12px;">
+                Bé giận dỗi chạy sang phòng khác rồi!
+              </p>
+              <button class="pet-action-pill" onclick="goFindAngryPet()">🔍 Đi tìm & Dỗ dành bé</button>
+            </div>
+          </div>
+        </section>
+        <!-- CỘT PHẢI THAY THẾ: KHU VỰC NÔNG TRẠI TRỒNG CÂY -->
+        <section id="rightGardenArena" class="right-chat-panel garden-arena-bg" style="display: none; position: relative; overflow: hidden;">
+          <div class="chat-panel-header" style="z-index: 10; background: rgba(255,255,255,0.85);">
+            <span class="chat-panel-title">🌾 Khu Vườn Chữa Lành</span>
+            <span id="farmCoinsBadge" class="coin-pill">🪙 20 Xu</span>
+          </div>
+
+          <div class="farm-center-area">
+            <div id="farmGuideBanner" class="farm-tip-banner">
+              🌱 Chọn hạt giống bên dưới rồi chạm vào ô đất trống để gieo hạt!
+            </div>
+            <div id="farmPlotsGrid" class="farm-plots-grid"></div>
+          </div>
+
+          <div class="farm-seed-toolbar">
+            <span style="font-size: 12px; font-weight: 700; white-space: nowrap;">🌰 Gieo hạt:</span>
+            <div id="quickSeedSelector" class="quick-seed-list"></div>
+          </div>
+        </section>
+
+        <!-- HỘP THOẠI KHO ĐỒ & CỬA HÀNG NÔNG SẢN -->
+        <div id="gardenModal" class="modal-overlay" style="display: none;">
+          <div class="modal-card" style="max-width: 480px; max-height: 85vh; display: flex; flex-direction: column;">
+            <div class="modal-header" style="margin-bottom: 10px;">
+              <h3 id="gardenModalTitle">🎒 Kho Nông Sản & Cửa Hàng</h3>
+              <button class="close-modal-btn" onclick="closeGardenModal()">✕</button>
+            </div>
+
+            <div class="left-tabs" style="margin-bottom: 10px;">
+              <button id="gTabInventory" class="l-tab active" onclick="switchGardenModalTab('inventory')">🎒 Kho Đồ</button>
+              <button id="gTabShop" class="l-tab" onclick="switchGardenModalTab('shop')">🏪 Cửa Hàng & Đổi Đồ Ăn</button>
+            </div>
+
+            <div id="gardenInventoryView" style="overflow-y: auto; flex: 1; padding-right: 4px;">
+              <div class="section-title" style="margin-top: 4px;">🧺 1. Kho Lương Thực (Thu hoạch từ vườn)</div>
+              <div id="invCropsList" class="garden-items-grid"></div>
+
+              <div class="section-title" style="margin-top: 14px;">🌰 2. Kho Hạt Giống (Dùng để gieo trồng)</div>
+              <div id="invSeedsList" class="garden-items-grid"></div>
+            </div>
+
+            <div id="gardenShopView" style="display: none; overflow-y: auto; flex: 1; padding-right: 4px;">
+              <div class="shop-wallet-bar">
+                <span>💰 Ví nông trại của bạn:</span>
+                <span id="modalCoinsDisplay" class="coin-pill">🪙 20 Xu</span>
+              </div>
+
+              <div class="shop-subtabs">
+                <button id="subTabCraft" class="sub-tab-btn active" onclick="switchShopSubTab('craft')">🍲 Đổi Đồ Ăn Pet</button>
+                <button id="subTabSell" class="sub-tab-btn" onclick="switchShopSubTab('sell')">💰 Bán Lấy Xu</button>
+                <button id="subTabBuy" class="sub-tab-btn" onclick="switchShopSubTab('buy')">🌰 Mua Hạt Giống</button>
+              </div>
+
+              <div id="shopCraftPetFoodList" class="shop-cards-grid"></div>
+              <div id="shopSellCropsList" class="shop-cards-grid" style="display: none;"></div>
+              <div id="shopBuySeedsList" class="shop-cards-grid" style="display: none;"></div>
+            </div>
+        </div>
+</div>
+
       <!-- CỘT PHẢI: KHUNG CHAT ĐỘC LẬP -->
       <section class="right-chat-panel"> 
              <div class="chat-panel-header">
@@ -69,7 +294,8 @@
         <button onclick="sendQuickAction('Chào hỏi')">✨ Chào hỏi</button>
         <button onclick="sendQuickAction('Kể chuyện')">📖 Kể chuyện</button>
         <button onclick="sendQuickAction('Tâm sự')">💬 Tâm sự</button>
-        <button onclick="sendQuickAction('Học tập')">💡 Học tập</button>
+        <button onclick="sendQuickAction('Học tập')">💡 Học tập</button> 
+        <button onclick="sendQuickAction('Câu đố vui')">🧩 Câu đố vui</button>
         <button onclick="extractMainIdeas()">📌 Lọc ý chính</button>
     </div>
         <div class="chat-input-box">
@@ -83,7 +309,81 @@
         </div>
       </section>
     </div>
-  </div>
-  <script src="script.js"></script>
+</div>
+<!-- HỘP THOẠI CÀI ĐẶT HỆ THỐNG -->
+<div id="settingsModal" class="modal-overlay" style="display: none;">
+    <div class="modal-card">
+        <div class="modal-header">
+            <h3>⚙️ Cài đặt hệ thống</h3>
+            <button class="close-modal-btn" onclick="closeSettings()">✕</button>
+        </div>
+
+        <div class="setting-item">
+            <div class="setting-label">
+                <span>🔊 Âm lượng hiệu ứng chạm</span>
+                <strong id="volValueText">80%</strong>
+            </div>
+            <input type="range" id="volumeSlider" min="0" max="100" value="80" oninput="updateVolumeSetting(this.value)">
+        </div>
+
+        <div class="setting-item row-between">
+            <span>📳 Rung phản hồi khi chạm</span>
+            <label class="switch">
+                <input type="checkbox" id="vibrateToggle" checked onchange="updateVibrateSetting(this.checked)">
+                <span class="slider round"></span>
+            </label>
+        </div>
+
+        <div class="setting-item row-between">
+            <span>🌓 Giao diện nền</span>
+            <select id="themeSelect" onchange="updateThemeSetting(this.value)" class="setting-select">
+                <option value="auto">Tự động (Sáng/Tối theo giờ)</option>
+                <option value="light">Luôn Sáng ☀️</option>
+                <option value="dark">Luôn Tối 🌙</option>
+            </select>
+        </div> 
+                <div class="setting-item row-between">
+            <span>🌧️ Hiệu ứng thời tiết nền</span>
+            <select id="weatherSelect" onchange="updateWeatherSetting(this.value)" class="setting-select">
+                <option value="auto">Tự động theo thời tiết thực</option>
+                <option value="rain">Nền trời mưa 🌧️</option>
+                <option value="clear">Nền trời quang ☀️</option>
+            </select>
+        </div>
+
+        <div class="setting-item row-between">
+            <span>🔔 Thông báo hỏi thăm hàng ngày</span>
+            <button id="enableNotifyBtn" class="mini-action-btn" onclick="requestSystemNotificationPermission()">
+                Bật thông báo
+            </button>
+        </div>
+
+        <div class="setting-item">
+            <span class="setting-sub">👤 Đổi nhân vật & Nhóm độ tuổi:</span> 
+<input type="text" id="customMascotNameInput" class="setting-select" placeholder="Nhập tên riêng cho linh vật của bạn..." style="margin-bottom: 8px;">
+            <div class="setting-grid-2">
+                <select id="editGenderSelect" class="setting-select">
+                    <option value="female">🌸 Nữ</option>
+                    <option value="male">⚡ Nam</option>
+                </select>
+                <select id="editAgeSelect" class="setting-select">
+                    <option value="6-12">6 – 12 tuổi</option>
+                    <option value="13-17">13 – 17 tuổi</option>
+                </select>
+            </div>
+            <button class="apply-persona-btn" onclick="applyNewPersona()">Lưu thay đổi nhân vật</button>
+        </div>
+
+        <hr class="setting-divider">
+
+        <div class="setting-item">
+            <button id="factoryResetBtn" class="factory-reset-btn" onclick="handleFactoryReset()">
+                ⚠️ Khôi phục cài đặt gốc
+            </button>
+            <p id="resetWarningText" class="reset-warning" style="display: none;"></p>
+        </div>
+    </div>
+</div>
+<script src="script.js"></script>
 </body>
 </html>

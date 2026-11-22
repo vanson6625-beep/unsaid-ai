@@ -1,400 +1,1131 @@
 :root { 
   --bg-gradient: linear-gradient(135deg, #fdf6f0 0%, #f4ecf5 100%);
   --primary: #8c78ad;
+  --primary-soft: rgba(140, 120, 173, 0.12);
   --accent: #f5b39e;
-  --bubble-ai: #faf4ef;
-  --bubble-user: #eaddf0;
+  --bubble-ai: #f8fafc;
+  --bubble-user: #8c78ad;
+  --text-user: #ffffff;
+  --text-main: #1e293b;
+  --text-muted: #64748b;
+  --border-color: rgba(226, 232, 240, 0.85);
+  --card-bg: rgba(255, 255, 255, 0.94);
+  --shadow-lg: 0 20px 50px -12px rgba(15, 23, 42, 0.08);
 }
 
-/* Đổi màu tự động theo giới tính (Nam = Xanh dương, Nữ = Hồng) */
 body.theme-female {
-  --bg-gradient: linear-gradient(135deg, #fff5f7 0%, #ffe6f0 100%);
-  --primary: #d67ba8;
-  --accent: #ffb6c1;
-  --bubble-ai: #fff0f5;
-  --bubble-user: #ffe4e1;
+  --bg-gradient: linear-gradient(135deg, #fff1f5 0%, #ffe4ec 100%);
+  --primary: #db2777;
+  --primary-soft: rgba(219, 39, 119, 0.1);
+  --accent: #f472b6;
+  --bubble-ai: #fff5f8;
+  --bubble-user: #db2777;
+  --text-user: #ffffff;
 }
 
 body.theme-male {
-  --bg-gradient: linear-gradient(135deg, #f0f7ff 0%, #e1effe 100%);
-  --primary: #3b82f6;
-  --accent: #93c5fd;
-  --bubble-ai: #f0f9ff;
-  --bubble-user: #dbeafe;
+  --bg-gradient: linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%);
+  --primary: #2563eb;
+  --primary-soft: rgba(37, 99, 235, 0.1);
+  --accent: #60a5fa;
+  --bubble-ai: #f1f5f9;
+  --bubble-user: #2563eb;
+  --text-user: #ffffff;
 }
 
-* { box-sizing: border-box; font-family: 'Segoe UI', Roboto, sans-serif; }
-body { margin: 0; min-height: 100vh; background: var(--bg-gradient); display: grid; place-items: center; color: #4a4551; padding: 20px; transition: background 0.4s ease; }
+* { 
+  box-sizing: border-box; 
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  -webkit-tap-highlight-color: transparent;
+}
 
-#setupScreen { position: fixed; inset: 0; background: rgba(255,255,255,0.92); backdrop-filter: blur(10px); z-index: 999; display: flex; align-items: center; justify-content: center; padding: 20px; text-align: center; }
-.setup-card { background: #fffefb; padding: 40px 35px; border-radius: 32px; box-shadow: 0 20px 45px rgba(0,0,0,0.08); max-width: 440px; width: 100%; border: 1px solid #f0e6de; }
-.setup-card h2 { margin: 12px 0 6px; color: #554442; font-size: 24px; }
-.setup-card p { color: #8a8593; font-size: 14px; margin-bottom: 25px; }
+body { 
+  margin: 0; 
+  min-height: 100dvh; 
+  background: var(--bg-gradient); 
+  display: grid; 
+  place-items: center; 
+  color: var(--text-main); 
+  padding: 20px; 
+  transition: background 0.4s ease; 
+}
+#setupScreen { 
+  position: fixed; 
+  inset: 0; 
+  background: rgba(255, 255, 255, 0.85); 
+  backdrop-filter: blur(14px); 
+  z-index: 999; 
+  display: flex; 
+  align-items: center; 
+  justify-content: center; 
+  padding: 20px; 
+  text-align: center; 
+}
 
-.section-title { font-size: 13px; font-weight: 700; text-align: left; margin: 18px 0 8px; color: #736b77; }
+.setup-card { 
+  background: #ffffff; 
+  padding: 36px 30px; 
+  border-radius: 28px; 
+  box-shadow: var(--shadow-lg); 
+  max-width: 420px; 
+  width: 100%; 
+  border: 1px solid var(--border-color); 
+}
+
+.setup-card h2 { margin: 10px 0 6px; color: var(--text-main); font-size: 22px; font-weight: 700; }
+.setup-card p { color: var(--text-muted); font-size: 14px; margin-bottom: 24px; }
+.section-title { font-size: 13px; font-weight: 600; text-align: left; margin: 18px 0 8px; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.5px; }
 .option-group { display: flex; gap: 12px; }
-.opt-btn { flex: 1; padding: 14px; border: 2px solid #f0e6de; background: #fffdfb; border-radius: 16px; font-weight: 700; cursor: pointer; transition: all 0.25s ease; color: #615a63; font-size: 14px; }
-.opt-btn.active { background: var(--accent); border-color: var(--primary); color: #fff; transform: translateY(-2px); box-shadow: 0 6px 15px rgba(0,0,0,0.1); }
 
-.start-btn { width: 100%; margin-top: 30px; padding: 16px; background: var(--primary); color: white; border: none; border-radius: 18px; font-size: 16px; font-weight: bold; cursor: pointer; box-shadow: 0 8px 22px rgba(0,0,0,0.12); transition: all 0.2s; }
-.start-btn:hover { transform: translateY(-2px); opacity: 0.95; }
-
-/* Giao diện chính to rộng, chia 2 cột rõ ràng */
-.app { max-width: 850px; width: 100%; padding: 30px; background: #fffefb; border-radius: 36px; box-shadow: 0 25px 60px rgba(0,0,0,0.1); display: none; border: 1px solid #f0e6de; }
-.app.active { display: flex; flex-direction: column; gap: 22px; }
-
-.topbar { display: flex; align-items: center; justify-content: space-between; border-bottom: 2px solid #f5ede6; padding-bottom: 15px; }
-.brand { display: flex; align-items: center; gap: 14px; }
-.brand-icon { width: 50px; height: 50px; border-radius: 16px; background: #fbe6d4; display: grid; place-items: center; font-size: 24px; box-shadow: 0 5px 15px rgba(0,0,0,0.06); }
-.brand h1 { margin: 0; font-size: 19px; color: #644d4b; }
-.brand p { margin: 4px 0 0; color: #8a8593; font-size: 12px; font-weight: 600; }
-.reset-btn { background: #f8f4f1; border: none; padding: 10px 16px; border-radius: 14px; font-size: 13px; font-weight: 600; cursor: pointer; color: #736b77; transition: background 0.2s; }
-.reset-btn:hover { background: #f0e6de; }
-
-/* Bố cục 2 cột: Trái (Linh vật + Chức năng to), Phải (Khung chat) */
-.main-layout { display: grid; grid-template-columns: 280px 1fr; gap: 24px; align-items: stretch; }
-
-.left-panel { background: linear-gradient(165deg, rgba(255,255,255,0.9) 0%, rgba(245,240,245,0.5) 100%); padding: 25px 20px; border-radius: 26px; text-align: center; border: 1.5px solid #f0e6de; display: flex; flex-direction: column; align-items: center; justify-content: space-between; }
-
-.mascot-stage { padding: 10px 0; cursor: pointer; }
-.mascot { font-size: 90px; display: inline-block; animation: mascotBreath 3.5s ease-in-out infinite; filter: drop-shadow(0 12px 18px rgba(0,0,0,0.1)); transition: transform 0.15s; }
-.mascot:active { transform: scale(0.85); }
-.mascot-name { font-weight: 700; color: #554442; margin-top: 10px; font-size: 16px; background: #fff; padding: 6px 16px; border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.05); }
-
-/* Các nút chức năng to rõ bên cột trái */
-.action-buttons { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; width: 100%; margin-top: 15px; }
-.act-btn { padding: 12px 8px; background: #fff; border: 2px solid #f0e6de; border-radius: 14px; font-weight: 700; font-size: 13px; color: #615a63; cursor: pointer; transition: all 0.2s; box-shadow: 0 3px 10px rgba(0,0,0,0.03); }
-.act-btn:hover { background: var(--primary); color: #fff; border-color: var(--primary); transform: translateY(-2px); }
-
-/* Cột phải: Khung chat độc lập, rộng rãi */
-.right-chat-panel { background: #fff; border: 1.5px solid #f0e6de; border-radius: 26px; padding: 20px; display: flex; flex-direction: column; justify-content: space-between; height: 420px; box-shadow: inset 0 2px 8px rgba(0,0,0,0.02); }
-
-.chat-display { display: flex; flex-direction: column; gap: 12px; overflow-y: auto; padding-right: 8px; flex: 1; }
-.chat-display::-webkit-scrollbar { width: 6px; }
-.chat-display::-webkit-scrollbar-thumb { background: #e6d8ce; border-radius: 10px; }
-
-/* Bong bóng chat căn chỉnh chuẩn không bị lệch */
-.bubble { background: var(--bubble-ai); padding: 14px 18px; border-radius: 18px; font-weight: 600; font-size: 14px; line-height: 1.5; color: #4a4551; border: 1px solid #f0e6de; text-align: left; max-width: 85%; word-break: break-word; align-self: flex-start; box-shadow: 0 3px 10px rgba(0,0,0,0.02); }
-.bubble.user { background: var(--bubble-user); align-self: flex-end; border-color: var(--accent); }
-
-/* Ô nhập liệu chat ở đáy cột phải */
-.chat-input-box { display: flex; gap: 10px; width: 100%; border-top: 2px solid #f5ede6; padding-top: 15px; margin-top: 10px; }
-.chat-input-box input { flex: 1; padding: 14px 18px; border: 2px solid #f0e6de; border-radius: 16px; outline: none; font-size: 14px; background: #fffefb; color: #4a4551; }
-.chat-input-box input:focus { border-color: var(--primary); box-shadow: 0 0 12px rgba(0,0,0,0.05); }
-
-.mic-btn, .send-btn { background: #fff; border: 2px solid #f0e6de; border-radius: 16px; padding: 0 18px; font-size: 16px; cursor: pointer; transition: all 0.2s; }
-.mic-btn:hover, .send-btn:hover { background: #faf4ef; border-color: var(--primary); transform: translateY(-1px); }
-.send-btn { font-size: 14px; font-weight: 700; color: white; background: var(--primary); border-color: var(--primary); }
-.mic-btn.listening { background: #ffebeb; border-color: #ff9999; animation: pulseMic 1.2s infinite; }
-
-@keyframes mascotBreath { 
-  0%, 100% { transform: translateY(0) scale(1); } 
-  50% { transform: translateY(-8px) scale(1.05); } 
+.opt-btn { 
+  flex: 1; padding: 14px; border: 1.5px solid var(--border-color); background: #f8fafc; 
+  border-radius: 16px; font-weight: 600; cursor: pointer; transition: all 0.2s ease; 
+  color: var(--text-main); font-size: 14px; 
 }
-@keyframes pulseMic {
-  0% { transform: scale(1); }
-  50% { transform: scale(1.12); }
-  100% { transform: scale(1); }
-}/* --- HIỆU ỨNG TRẠNG THÁI LINH VẬT --- */
-#mascotEmoji {
-    position: relative;
-    display: inline-block;
-    transition: transform 0.3s ease;
-    cursor: pointer;
-    user-select: none;
+.opt-btn.active { 
+  background: var(--primary-soft); border-color: var(--primary); color: var(--primary); 
+  transform: translateY(-2px); box-shadow: 0 4px 12px var(--primary-soft); 
 }
 
-/* Hiệu ứng nhún nhảy khi chạm */
-.mascot-bounce {
-    animation: bounceTap 0.5s ease;
+.start-btn { 
+  width: 100%; margin-top: 28px; padding: 16px; background: var(--primary); color: white; 
+  border: none; border-radius: 16px; font-size: 15px; font-weight: 600; cursor: pointer; 
+  box-shadow: 0 8px 20px var(--primary-soft); transition: all 0.2s; 
+}
+.start-btn:hover { transform: translateY(-2px); filter: brightness(1.05); }
+
+.app { 
+  max-width: 1040px; width: 100%; padding: 24px; background: var(--card-bg); 
+  backdrop-filter: blur(16px); border-radius: 30px; box-shadow: var(--shadow-lg); 
+  display: none; border: 1px solid rgba(255, 255, 255, 0.9); 
+}
+.app.active { display: flex; flex-direction: column; gap: 18px; }
+
+.topbar { 
+  display: flex; align-items: center; justify-content: space-between; 
+  border-bottom: 1px solid var(--border-color); padding-bottom: 14px; 
+}
+.brand { display: flex; align-items: center; gap: 12px; }
+.brand-icon { width: 44px; height: 44px; border-radius: 14px; background: var(--primary-soft); display: grid; place-items: center; font-size: 22px; }
+.brand h1 { margin: 0; font-size: 18px; font-weight: 700; color: var(--text-main); }
+.brand p { margin: 2px 0 0; color: #16a34a; font-size: 12px; font-weight: 500; }
+
+.reset-btn { 
+  background: #f1f5f9; border: 1px solid var(--border-color); padding: 8px 14px; 
+  border-radius: 999px; font-size: 12.5px; font-weight: 600; cursor: pointer; 
+  color: var(--text-muted); transition: all 0.2s; 
+}
+.reset-btn:hover { background: #fee2e2; color: #dc2626; border-color: #fecaca; }
+.main-layout { 
+  display: grid; 
+  grid-template-columns: 300px 1fr; 
+  gap: 20px; 
+  align-items: stretch; 
 }
 
-@keyframes bounceTap {
-    0%, 100% { transform: scale(1); }
-    40% { transform: scale(1.25) rotate(-8deg); }
-    70% { transform: scale(0.95) rotate(6deg); }
+.left-panel { 
+  background: #f8fafc; padding: 24px 18px; border-radius: 22px; text-align: center; 
+  border: 1px solid var(--border-color); display: flex; flex-direction: column; 
+  align-items: center; justify-content: space-between; 
 }
 
-/* Hiệu ứng lắc lư khi ca hát */
-.mascot-sing {
-    animation: singSway 1.2s infinite ease-in-out;
+.mascot-stage { padding: 8px 0; cursor: pointer; }
+.mascot-name { 
+  font-weight: 700; color: var(--text-main); margin-top: 10px; font-size: 15px; 
+  background: #ffffff; padding: 6px 16px; border-radius: 999px; 
+  border: 1px solid var(--border-color); display: inline-block; 
 }
 
-@keyframes singSway {
-    0%, 100% { transform: rotate(-10deg) translateY(0); }
-    50% { transform: rotate(10deg) translateY(-6px); }
+.action-buttons { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; width: 100%; margin-top: 16px; }
+.act-btn { 
+  padding: 10px 8px; background: #ffffff; border: 1px solid var(--border-color); 
+  border-radius: 12px; font-weight: 600; font-size: 12.5px; color: var(--text-main); 
+  cursor: pointer; transition: all 0.2s; 
+}
+.act-btn:hover { background: var(--primary); color: #ffffff; border-color: var(--primary); transform: translateY(-1px); }
+.act-btn:last-child { grid-column: span 2; background: var(--primary-soft); color: var(--primary); border-color: transparent; }
+.act-btn:last-child:hover { background: var(--primary); color: #ffffff; }
+
+.right-chat-panel { 
+  background: #ffffff; border: 1px solid var(--border-color); border-radius: 22px; 
+  display: flex; flex-direction: column; justify-content: space-between; 
+  height: 560px; overflow: hidden; box-shadow: 0 4px 20px rgba(0, 0, 0, 0.02); 
 }
 
-/* Hiệu ứng thở nhẹ khi ngủ */
-.mascot-sleep {
-    animation: sleepBreathe 2.5s infinite ease-in-out;
-    filter: brightness(0.9);
-}
-
-@keyframes sleepBreathe {
-    0%, 100% { transform: scale(1) rotate(0deg); }
-    50% { transform: scale(0.94) rotate(5deg); }
-}
-
-/* Bong bóng biểu tượng nhỏ trên đầu linh vật (💤, 🎵, 💖) */
-#mascotStatusBadge {
-    position: absolute;
-    top: -12px;
-    right: -18px;
-    font-size: 24px;
-    pointer-events: none;
-    animation: floatBadge 1.5s infinite ease-in-out;
-}
-
-@keyframes floatBadge {
-    0%, 100% { transform: translateY(0); opacity: 1; }
-    50% { transform: translateY(-6px); opacity: 0.85; }
-}
-/* --- BIỂU CẢM KHUÔN MẶT CHIBI SVG --- */
-.chibi-avatar {
-    width: 140px;
-    height: 140px;
-    margin: 0 auto;
-    display: block;
-    overflow: visible;
-}
-
-/* Mặc định: chỉ hiện nét mặt bình thường */
-.face-happy, .face-sing, .face-sleep { display: none; }
-.face-normal { display: block; }
-
-/* Khi chạm vào (Vui vẻ) */
-.mascot-happy .face-normal { display: none; }
-.mascot-happy .face-happy { display: block; }
-
-/* Khi ca hát */
-.mascot-sing .face-normal { display: none; }
-.mascot-sing .face-sing { display: block; }
-
-/* Khi ngủ gật */
-.mascot-sleep .face-normal { display: none; }
-.mascot-sleep .face-sleep { display: block; }
-
-/* Hiệu ứng chớp mắt tự nhiên */
-@keyframes eyeBlink {
-    0%, 92%, 100% { transform: scaleY(1); }
-    96% { transform: scaleY(0.1); }
-}
-.chibi-eyes {
-    transform-origin: center 68px;
-    animation: eyeBlink 4s infinite;
-}
-/* --- TỐI ƯU GIAO DIỆN MÀN HÌNH DỌC ĐIỆN THOẠI --- */
-@media screen and (max-width: 768px) {
-    html, body {
-        margin: 0 !important;
-        padding: 0 !important;
-        width: 100% !important;
-        height: 100dvh !important;
-        min-height: 100dvh !important;
-        display: flex !important;
-        flex-direction: column !important;
-        overflow: hidden !important;
-    }
-
-    .app {
-        width: 100% !important;
-        height: 100% !important;
-        max-height: 100dvh !important;
-        margin: 0 !important;
-        border-radius: 0 !important;
-        display: flex !important;
-        flex-direction: column !important;
-        justify-content: space-between !important;
-    }
-
-
-    /* Thu gọn thanh tiêu đề trên cùng */
-    .topbar {
-        padding: 10px 14px;
-        flex-shrink: 0;
-    }
-    .topbar h1 { font-size: 16px; }
-    .topbar p { font-size: 12px; }
-    .reset-btn { padding: 6px 10px; font-size: 12px; }
-
-    /* Xếp dọc: Khu vực linh vật ở trên, khung chat ở dưới */
-    .main-layout {
-        display: flex;
-        flex-direction: column;
-        flex: 1;
-        overflow: hidden;
-        padding: 8px;
-        gap: 8px;
-    }
-
-    /* Thu gọn khu vực nhân vật Chibi & biến 5 nút thành hàng ngang cuộn mượt */
-    .left-panel {
-        width: 100%;
-        padding: 8px;
-        flex-shrink: 0;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-    }
-
-    .chibi-avatar {
-        width: 75px;
-        height: 75px;
-    }
-    .mascot-name {
-        font-size: 14px;
-        margin: 4px 0 8px 0;
-    }
-
-    .action-buttons {
-        display: flex;
-        flex-wrap: nowrap;
-        overflow-x: auto;
-        width: 100%;
-        gap: 6px;
-        padding-bottom: 4px;
-        -webkit-overflow-scrolling: touch;
-    }
-    .action-buttons::-webkit-scrollbar { display: none; }
-
-    .act-btn {
-        flex: 0 0 auto;
-        padding: 6px 12px;
-        font-size: 12px;
-        white-space: nowrap;
-    }
-
-    /* Mở rộng tối đa khung chat và ghim chặt ô nhập tin nhắn ở đáy */
-    .right-chat-panel {
-        flex: 1;
-        width: 100%;
-        display: flex;
-        flex-direction: column;
-        min-height: 0;
-    }
-
-    .chat-display {
-        flex: 1;
-        padding: 10px;
-        overflow-y: auto;
-    }
-
-    .bubble {
-        max-width: 85%;
-        font-size: 14px;
-        padding: 10px 12px;
-    }
-
-    .chat-input-box {
-        display: flex !important;
-        align-items: center !important;
-        width: 100% !important;
-        box-sizing: border-box !important;
-        padding: 6px !important;
-        gap: 6px !important;
-        flex-shrink: 0 !important;
-    }
-
-    #userInput {
-        flex: 1 !important;
-        min-width: 0 !important;
-        width: 100% !important;
-        font-size: 16px !important;
-        padding: 8px 10px !important;
-    }
-
-    .mic-btn, .send-btn {
-        flex-shrink: 0 !important;
-        padding: 8px 12px !important;
-        font-size: 14px !important;
-        white-space: nowrap !important;
-    }
-}
-/* --- THANH TIÊU ĐỀ KHUNG CHAT & CHẾ ĐỘ TOÀN MÀN HÌNH --- */
 .chat-panel-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 8px 14px;
-    border-bottom: 1px solid rgba(0, 0, 0, 0.06);
-    background: rgba(255, 255, 255, 0.6);
-    flex-shrink: 0;
+  display: flex; justify-content: space-between; align-items: center; padding: 12px 18px;
+  border-bottom: 1px solid var(--border-color); background: #fafafa; flex-shrink: 0;
 }
-
-.chat-panel-title {
-    font-size: 13px;
-    font-weight: 600;
-    color: #555;
-}
+.chat-panel-title { font-size: 13.5px; font-weight: 600; color: var(--text-main); }
 
 .fullscreen-btn {
-    background: #eef2ff;
-    color: #4338ca;
-    border: 1px solid #c7d2fe;
-    padding: 5px 10px;
-    border-radius: 12px;
+  background: #ffffff; color: var(--text-main); border: 1px solid var(--border-color);
+  padding: 5px 12px; border-radius: 999px; font-size: 12px; font-weight: 600;
+  cursor: pointer; transition: all 0.2s;
+}
+.fullscreen-btn:hover { background: #f1f5f9; }
+.chat-display { 
+  display: flex; flex-direction: column; gap: 12px; overflow-y: auto; 
+  padding: 18px; flex: 1; scroll-behavior: smooth; 
+}
+.chat-display::-webkit-scrollbar { width: 5px; }
+.chat-display::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 10px; }
+
+.bubble { 
+  background: var(--bubble-ai); padding: 12px 16px; border-radius: 18px 18px 18px 4px; 
+  font-weight: 500; font-size: 14.5px; line-height: 1.55; color: var(--text-main); 
+  border: 1px solid var(--border-color); text-align: left; max-width: 82%; 
+  word-break: break-word; align-self: flex-start; 
+}
+.bubble.user { 
+  background: var(--bubble-user); color: var(--text-user); border-radius: 18px 18px 4px 18px; 
+  align-self: flex-end; border: none; box-shadow: 0 4px 12px var(--primary-soft); 
+}
+
+.fullchat-quick-actions {
+  display: flex; flex-wrap: nowrap; overflow-x: auto; gap: 8px; padding: 8px 14px;
+  border-top: 1px solid #f1f5f9; background: #ffffff; scrollbar-width: none; flex-shrink: 0;
+}
+.fullchat-quick-actions::-webkit-scrollbar { display: none; }
+
+.fullchat-quick-actions button {
+  flex: 0 0 auto; background: #f8fafc; border: 1px solid var(--border-color);
+  color: var(--text-main); padding: 6px 13px; border-radius: 999px; font-size: 12.5px;
+  font-weight: 600; cursor: pointer; white-space: nowrap; transition: all 0.2s;
+}
+.fullchat-quick-actions button:hover { background: var(--primary-soft); border-color: var(--primary); color: var(--primary); }
+
+.chat-input-box { 
+  display: flex; align-items: center; gap: 8px; width: 100%; 
+  border-top: 1px solid var(--border-color); padding: 12px 14px; background: #ffffff; flex-shrink: 0; 
+}
+.chat-input-box input { 
+  flex: 1; min-width: 0; height: 42px; padding: 0 16px; border: 1.5px solid var(--border-color); 
+  border-radius: 999px; outline: none; font-size: 14px; background: #f8fafc; color: var(--text-main); 
+}
+.chat-input-box input:focus { background: #ffffff; border-color: var(--primary); box-shadow: 0 0 0 3px var(--primary-soft); }
+
+.mic-btn { 
+  width: 42px; height: 42px; padding: 0; border-radius: 50%; background: #f1f5f9; 
+  border: 1px solid var(--border-color); display: flex; align-items: center; justify-content: center; 
+  cursor: pointer; flex-shrink: 0; transition: all 0.2s; 
+}
+.mic-btn:hover { background: #e2e8f0; }
+.mic-btn.listening { background: #fee2e2; border-color: #ef4444; color: #dc2626; animation: pulseMic 1.2s infinite; }
+
+.send-btn { 
+  height: 42px; padding: 0 18px; border-radius: 999px; border: none; font-size: 13.5px; 
+  font-weight: 600; color: white; background: var(--primary); cursor: pointer; flex-shrink: 0; white-space: nowrap; 
+}
+.send-btn:hover { filter: brightness(1.08); transform: translateY(-1px); }
+#mascotEmoji { position: relative; display: inline-block; transition: transform 0.3s ease; cursor: pointer; user-select: none; }
+.chibi-avatar { width: 130px; height: 130px; margin: 0 auto; display: block; overflow: visible; }
+.face-happy, .face-sing, .face-sleep { display: none; }
+.face-normal { display: block; }
+.mascot-happy .face-normal, .mascot-sing .face-normal, .mascot-sleep .face-normal { display: none; }
+.mascot-happy .face-happy, .mascot-sing .face-sing, .mascot-sleep .face-sleep { display: block; }
+
+@keyframes eyeBlink { 0%, 92%, 100% { transform: scaleY(1); } 96% { transform: scaleY(0.1); } }
+.chibi-eyes { transform-origin: center 68px; animation: eyeBlink 4s infinite; }
+.mascot-bounce { animation: bounceTap 0.5s ease; }
+@keyframes bounceTap { 0%, 100% { transform: scale(1); } 40% { transform: scale(1.2) rotate(-6deg); } 70% { transform: scale(0.95) rotate(5deg); } }
+.mascot-sing { animation: singSway 1.2s infinite ease-in-out; }
+@keyframes singSway { 0%, 100% { transform: rotate(-8deg) translateY(0); } 50% { transform: rotate(8deg) translateY(-5px); } }
+.mascot-sleep { animation: sleepBreathe 2.5s infinite ease-in-out; filter: brightness(0.92); }
+@keyframes sleepBreathe { 0%, 100% { transform: scale(1); } 50% { transform: scale(0.95) rotate(4deg); } }
+#mascotStatusBadge { position: absolute; top: -8px; right: -14px; font-size: 22px; pointer-events: none; animation: floatBadge 1.5s infinite ease-in-out; }
+@keyframes floatBadge { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-5px); } }
+@keyframes pulseMic { 0% { box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.4); } 70% { box-shadow: 0 0 0 10px rgba(239, 68, 68, 0); } 100% { box-shadow: 0 0 0 0 rgba(239, 68, 68, 0); } }
+
+@media screen and (max-width: 768px) {
+  body { padding: 0; background: #f8fafc; }
+  .app { width: 100%; height: 100dvh; max-height: 100dvh; border-radius: 0; padding: 0; gap: 0; border: none; background: #f8fafc; }
+  .topbar { padding: 10px 14px; background: #ffffff; border-bottom: 1px solid var(--border-color); }
+  .brand-icon { width: 38px; height: 38px; font-size: 18px; border-radius: 12px; }
+  .brand h1 { font-size: 15.5px; }
+  .brand p { font-size: 11.5px; }
+  .topbar .reset-btn { display: none; }
+  .main-layout { display: flex; flex-direction: column; flex: 1; padding: 8px; gap: 8px; min-height: 0; }
+  .left-panel { flex-direction: row; align-items: center; padding: 8px 12px; border-radius: 16px; background: #ffffff; gap: 12px; flex-shrink: 0; }
+  .mascot-stage { display: flex; align-items: center; gap: 10px; padding: 0; flex-shrink: 0; }
+  .chibi-avatar { width: 52px; height: 52px; }
+  .mascot-name { margin: 0; font-size: 13px; padding: 4px 10px; }
+  .left-panel .action-buttons { display: none; }
+  .right-chat-panel { flex: 1; height: auto; min-height: 0; border-radius: 18px; }
+  .chat-panel-header { padding: 8px 12px; }
+  .chat-display { padding: 12px; }
+  .bubble { max-width: 86%; font-size: 14px; padding: 10px 14px; }
+  .fullchat-quick-actions { padding: 6px 10px; gap: 6px; }
+  .fullchat-quick-actions button { padding: 5px 11px; font-size: 12px; }
+  .chat-input-box { padding: 8px 10px; gap: 6px; }
+  .chat-input-box input { height: 40px; font-size: 14.5px; padding: 0 14px; }
+  .mic-btn { width: 40px; height: 40px; }
+  .send-btn { height: 40px; padding: 0 14px; font-size: 13.5px; }
+}
+
+.app.full-chat-mode .topbar, .app.full-chat-mode .left-panel { display: none !important; }
+.app.full-chat-mode { width: 100vw !important; height: 100dvh !important; max-width: 100vw !important; padding: 0 !important; border-radius: 0 !important; }
+.app.full-chat-mode .main-layout { padding: 0 !important; height: 100dvh !important; display: flex !important; justify-content: center !important; }
+.app.full-chat-mode .right-chat-panel { width: 100% !important; max-width: 880px !important; height: 100dvh !important; border-radius: 0 !important; border-top: none !important; border-bottom: none !important; }
+/* Dọn dẹp các thành phần trùng lặp trên màn hình PC */
+@media screen and (min-width: 769px) {
+  .topbar .reset-btn {
+    display: none;
+  }
+
+  /* Ẩn dải nút nhanh dưới khung chat khi ở chế độ 2 cột (vì cột trái đã có) */
+  .app:not(.full-chat-mode) .fullchat-quick-actions {
+    display: none;
+  }
+}
+
+
+/* =========================================================
+   CSS ĐỢT 1: CÀI ĐẶT, CHẾ ĐỘ TỐI & HIỆU ỨNG CHẠM
+   ========================================================= */
+
+/* 1. Nút Cài đặt góc trên phải PC */
+.settings-top-btn {
+  background: var(--primary-soft);
+  color: var(--primary);
+  border: 1px solid var(--primary);
+  padding: 8px 16px;
+  border-radius: 999px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+.settings-top-btn:hover {
+  background: var(--primary);
+  color: #ffffff;
+  transform: translateY(-1px);
+}
+
+/* 2. Giao diện nền tối (Dark Mode) */
+body.dark-mode {
+  --bg-gradient: linear-gradient(135deg, #0f172a 0%, #1e1b4b 100%);
+  --card-bg: rgba(30, 41, 59, 0.95);
+  --text-main: #f1f5f9;
+  --text-muted: #94a3b8;
+  --border-color: rgba(71, 85, 105, 0.6);
+  --bubble-ai: #1e293b;
+}
+body.dark-mode .right-chat-panel,
+body.dark-mode .left-panel,
+body.dark-mode .chat-panel-header,
+body.dark-mode .chat-input-box,
+body.dark-mode .modal-card {
+  background: #0f172a;
+  color: #f1f5f9;
+}
+body.dark-mode .act-btn,
+body.dark-mode .mascot-name,
+body.dark-mode .fullscreen-btn,
+body.dark-mode .chat-input-box input,
+body.dark-mode .setting-select {
+  background: #1e293b;
+  color: #f1f5f9;
+}
+
+/* 3. Hộp thoại Cài đặt (Modal) */
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(15, 23, 42, 0.55);
+  backdrop-filter: blur(6px);
+  z-index: 2000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+}
+.modal-card {
+  background: #ffffff;
+  width: 100%;
+  max-width: 420px;
+  border-radius: 24px;
+  padding: 24px;
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+  border: 1px solid var(--border-color);
+  animation: popIn 0.2s ease;
+}
+@keyframes popIn {
+  from { transform: scale(0.92); opacity: 0; }
+  to { transform: scale(1); opacity: 1; }
+}
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 18px;
+  border-bottom: 1px solid var(--border-color);
+  padding-bottom: 12px;
+}
+.modal-header h3 { margin: 0; font-size: 17px; }
+.close-modal-btn {
+  background: #f1f5f9;
+  border: none;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  cursor: pointer;
+  font-weight: bold;
+  color: #64748b;
+}
+.setting-item { margin-bottom: 16px; }
+.row-between { display: flex; justify-content: space-between; align-items: center; font-size: 14px; font-weight: 500; }
+.setting-label { display: flex; justify-content: space-between; font-size: 14px; margin-bottom: 6px; }
+.setting-sub { display: block; font-size: 13px; color: var(--text-muted); margin-bottom: 8px; }
+#volumeSlider { width: 100%; accent-color: var(--primary); cursor: pointer; }
+.setting-select {
+  padding: 9px 12px;
+  border-radius: 12px;
+  border: 1px solid var(--border-color);
+  background: #f8fafc;
+  color: #1e293b;
+  font-size: 13px;
+  font-weight: 500;
+  width: 100%;
+}
+.row-between .setting-select { width: auto; }
+.setting-grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 8px; }
+.apply-persona-btn {
+  width: 100%;
+  padding: 10px;
+  background: var(--primary-soft);
+  color: var(--primary);
+  border: 1px solid var(--primary);
+  border-radius: 12px;
+  font-weight: 600;
+  font-size: 13px;
+  cursor: pointer;
+  transition: 0.2s;
+}
+.apply-persona-btn:hover { background: var(--primary); color: #fff; }
+.setting-divider { border: none; border-top: 1px solid var(--border-color); margin: 16px 0; }
+.factory-reset-btn {
+  width: 100%;
+  padding: 12px;
+  background: #fee2e2;
+  color: #dc2626;
+  border: 1px solid #fecaca;
+  border-radius: 14px;
+  font-weight: 700;
+  font-size: 13.5px;
+  cursor: pointer;
+  transition: 0.2s;
+}
+.factory-reset-btn:disabled { opacity: 0.65; cursor: not-allowed; }
+.reset-warning { font-size: 12.5px; color: #dc2626; text-align: center; margin: 8px 0 0; font-weight: 500; }
+
+/* 4. Công tắc Bật/Tắt Rung */
+.switch { position: relative; display: inline-block; width: 44px; height: 24px; }
+.switch input { opacity: 0; width: 0; height: 0; }
+.slider { position: absolute; cursor: pointer; inset: 0; background-color: #cbd5e1; transition: .3s; border-radius: 24px; }
+.slider:before { position: absolute; content: ""; height: 18px; width: 18px; left: 3px; bottom: 3px; background-color: white; transition: .3s; border-radius: 50%; }
+input:checked + .slider { background-color: var(--primary); }
+input:checked + .slider:before { transform: translateX(20px); }
+
+/* 5. Hiệu ứng chạm hạt bay & Rung màn hình */
+.touch-particle {
+  position: fixed;
+  pointer-events: none;
+  font-size: 16px;
+  z-index: 9999;
+  animation: particleFloat 0.65s ease-out forwards;
+}
+@keyframes particleFloat {
+  0% { transform: translate(-50%, -50%) scale(0.6); opacity: 1; }
+  100% { transform: translate(-50%, -140%) scale(1.3); opacity: 0; }
+}
+.screen-shake {
+  animation: shakeEffect 0.18s ease-in-out;
+}
+@keyframes shakeEffect {
+  0%, 100% { transform: translateX(0); }
+  25% { transform: translateX(-3px); }
+  75% { transform: translateX(3px); }
+}
+/* =========================================================
+   TRANG TRÍ NỀN BẦU TRỜI ĐÊM (SAO LẤP LÁNH, TRĂNG & ĐOM ĐÓM)
+   ========================================================= */
+body.dark-mode {
+  background: radial-gradient(circle at 85% 15%, #1e1b4b 0%, #0f172a 45%, #060913 100%) !important;
+  overflow-x: hidden;
+}
+
+/* Hào quang trăng khuyết & ánh sáng mờ góc trên bên phải */
+body.dark-mode::before {
+  content: "🌙";
+  position: fixed;
+  top: 32px;
+  right: 48px;
+  font-size: 54px;
+  opacity: 0.22;
+  filter: drop-shadow(0 0 25px rgba(253, 224, 71, 0.65));
+  pointer-events: none;
+  z-index: 0;
+  animation: moonFloat 6s ease-in-out infinite alternate;
+}
+
+/* Dải ánh sáng tinh vân mềm góc dưới bên trái */
+body.dark-mode::after {
+  content: "";
+  position: fixed;
+  bottom: -100px;
+  left: -100px;
+  width: 380px;
+  height: 380px;
+  background: radial-gradient(circle, rgba(99, 102, 241, 0.16) 0%, transparent 70%);
+  pointer-events: none;
+  z-index: 0;
+}
+
+@keyframes moonFloat {
+  from { transform: translateY(0) rotate(-6deg); }
+  to { transform: translateY(-10px) rotate(4deg); }
+}
+
+/* Các ngôi sao lấp lánh trên nền tối */
+.night-star {
+  position: fixed;
+  background: #ffffff;
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 0;
+  box-shadow: 0 0 6px #bae6fd, 0 0 12px #e0f2fe;
+  animation: starTwinkle var(--dur, 3s) ease-in-out infinite alternate;
+  display: none;
+}
+
+body.dark-mode .night-star {
+  display: block;
+}
+
+@keyframes starTwinkle {
+  0% { opacity: 0.15; transform: scale(0.7); }
+  100% { opacity: 0.95; transform: scale(1.25); }
+}
+
+/* Làm khung ứng dụng hơi trong suốt kính mờ (Glassmorphism) để thấy nền đêm đẹp hơn */
+body.dark-mode .app {
+  background: rgba(15, 23, 42, 0.82);
+  backdrop-filter: blur(12px);
+  box-shadow: 0 25px 60px rgba(0, 0, 0, 0.65), 0 0 0 1px rgba(148, 163, 184, 0.15);
+}
+/* =========================================================
+   BẢN VÁ LỖI GIAO DIỆN & BẦU TRỜI 4 BUỔI (SÁNG - TRƯA - CHIỀU - ĐÊM)
+   ========================================================= */
+
+/* 1. Khóa chặt Canvas Mưa & Hiệu ứng bầu trời (Sửa dứt điểm lỗi đẩy khung app) */
+#weatherCanvas, #skyDecorLayer {
+  position: fixed !important;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  pointer-events: none !important;
+  z-index: 0 !important;
+}
+
+/* Đảm bảo khung App chính luôn nằm gọn gàng ở giữa màn hình */
+.app {
+  position: relative;
+  z-index: 10;
+}
+
+/* 2. Bầu trời 4 khung giờ (Sáng - Trưa - Chiều - Đêm) */
+/* Buổi Sáng (05:00 - 10:59): Nắng mai dịu nhẹ, xanh pastel */
+body.sky-morning {
+  background: linear-gradient(135deg, #bae6fd 0%, #e0f2fe 50%, #fef9c3 100%) !important;
+}
+
+/* Buổi Trưa (11:00 - 15:59): Trời xanh trong vắt, tươi sáng */
+body.sky-noon {
+  background: linear-gradient(180deg, #38bdf8 0%, #7dd3fc 55%, #f0f9ff 100%) !important;
+}
+
+/* Buổi Chiều / Hoàng hôn (16:00 - 17:59): Cam đào hoàng hôn lãng mạn */
+body.sky-afternoon {
+  background: linear-gradient(135deg, #fdba74 0%, #fda4af 50%, #e9d5ff 100%) !important;
+}
+
+/* 3. Mặt trời & Mây trôi nhẹ nhàng cho Sáng - Trưa - Chiều */
+.sky-sun {
+  position: fixed;
+  top: 32px;
+  right: 52px;
+  width: 68px;
+  height: 68px;
+  border-radius: 50%;
+  background: radial-gradient(circle, #fef08a 25%, #facc15 70%, rgba(250, 204, 21, 0) 100%);
+  box-shadow: 0 0 35px 12px rgba(253, 224, 71, 0.55);
+  pointer-events: none;
+  z-index: 0;
+  animation: sunGlow 4s ease-in-out infinite alternate;
+}
+
+body.sky-afternoon .sky-sun {
+  top: 75px;
+  background: radial-gradient(circle, #fed7aa 20%, #fb923c 70%, rgba(251, 146, 60, 0) 100%);
+  box-shadow: 0 0 45px 16px rgba(251, 146, 60, 0.6);
+}
+
+@keyframes sunGlow {
+  from { transform: scale(1); opacity: 0.9; }
+  to { transform: scale(1.08); opacity: 1; }
+}
+
+.sky-cloud {
+  position: fixed;
+  background: rgba(255, 255, 255, 0.78);
+  border-radius: 50px;
+  filter: blur(1.5px);
+  pointer-events: none;
+  z-index: 0;
+  animation: cloudFloat linear infinite;
+}
+.sky-cloud::before, .sky-cloud::after {
+  content: "";
+  position: absolute;
+  background: inherit;
+  border-radius: 50%;
+}
+.sky-cloud::before { width: 52%; height: 145%; top: -65%; left: 15%; }
+.sky-cloud::after { width: 42%; height: 115%; top: -45%; right: 15%; }
+
+@keyframes cloudFloat {
+  from { transform: translateX(-180px); }
+  to { transform: translateX(105vw); }
+}
+
+/* 4. Sửa dứt điểm thanh 3 Tab cột trái nằm trên 1 hàng ngang & đồng bộ Dark Mode */
+.left-tabs {
+  display: flex !important;
+  flex-wrap: nowrap !important;
+  gap: 5px;
+  width: 100%;
+  margin-bottom: 12px;
+  background: var(--primary-soft);
+  padding: 4px;
+  border-radius: 14px;
+}
+
+.l-tab {
+  flex: 1 1 0;
+  min-width: 0;
+  white-space: nowrap !important;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  padding: 7px 4px;
+  border: none;
+  background: transparent;
+  border-radius: 10px;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--text-muted);
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.l-tab.active {
+  background: #ffffff;
+  color: var(--primary);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+body.dark-mode .l-tab.active {
+  background: #1e293b;
+  color: #ffffff;
+}
+
+/* Đảm bảo cột trái đồng bộ chiều cao 560px với khung chat để không bao giờ bị cắt mất nút dưới cùng */
+@media screen and (min-width: 769px) {
+  .left-panel {
+    height: 560px;
+    padding: 16px 14px;
+    overflow-y: auto;
+  }
+  .chibi-avatar {
+    width: 108px;
+    height: 108px;
+  }
+  .action-buttons {
+    margin-top: 10px;
+    gap: 6px;
+  }
+  .act-btn {
+    padding: 8px 6px;
     font-size: 12px;
-    font-weight: 600;
-    cursor: pointer;
-    transition: 0.2s;
+  }
 }
 
-.fullscreen-btn:hover {
-    background: #e0e7ff;
+/* Style gọn đẹp cho tab Nuôi Pet & Cây Nhạc */
+#tab-mascot, #tab-pet, #tab-garden {
+  width: 100%;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+}
+/* =========================================================
+   HIỆU ỨNG KÍNH MỜ XUYÊN THẤU CHO KHUNG CHAT & CỘT TRÁI
+   ========================================================= */
+
+/* 1. Khung tổng (.app) trong suốt nhẹ + làm mờ nhẹ hậu cảnh */
+.app {
+  background: rgba(255, 255, 255, 0.42) !important;
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.55) !important;
 }
 
-/* Khi kích hoạt chế độ Toàn màn hình */
-.app.full-chat-mode .topbar,
-.app.full-chat-mode .left-panel,
-.app.full-chat-mode .mascot-stage {
-    display: none !important;
+body.dark-mode .app {
+  background: rgba(15, 23, 42, 0.45) !important;
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid rgba(148, 163, 184, 0.22) !important;
 }
 
-.app.full-chat-mode {
+/* 2. Cột trái & Khung chat bên phải trong suốt xuyên thấu */
+.left-panel,
+.right-chat-panel {
+  background: rgba(255, 255, 255, 0.35) !important;
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  border: 1px solid rgba(255, 255, 255, 0.45) !important;
+}
+
+body.dark-mode .left-panel,
+body.dark-mode .right-chat-panel {
+  background: rgba(15, 23, 42, 0.38) !important;
+  border: 1px solid rgba(148, 163, 184, 0.18) !important;
+}
+
+/* 3. Thanh tiêu đề khung chat & Ô nhập tin nhắn bán trong suốt */
+.chat-panel-header,
+.chat-input-box {
+  background: rgba(255, 255, 255, 0.28) !important;
+  border-color: rgba(255, 255, 255, 0.35) !important;
+}
+
+body.dark-mode .chat-panel-header,
+body.dark-mode .chat-input-box {
+  background: rgba(15, 23, 42, 0.35) !important;
+  border-color: rgba(148, 163, 184, 0.16) !important;
+}
+
+/* 4. Giữ bong bóng chat & nút bấm nổi bật để luôn dễ đọc chữ */
+.bubble:not(.user),
+.act-btn,
+.mascot-name,
+.fullscreen-btn,
+.chat-input-box input {
+  background: rgba(255, 255, 255, 0.72) !important;
+}
+
+body.dark-mode .bubble:not(.user),
+body.dark-mode .act-btn,
+body.dark-mode .mascot-name,
+body.dark-mode .fullscreen-btn,
+body.dark-mode .chat-input-box input {
+  background: rgba(30, 41, 59, 0.68) !important;
+}
+
+/* 5. Hiển thị trọn vẹn chữ "🌱 Cây & Nhạc" không bị cắt dấu "..." */
+.l-tab {
+  font-size: 11.5px !important;
+  padding: 7px 2px !important;
+  letter-spacing: -0.2px;
+}
+/* =========================================================
+   TRỌN BỘ CSS NUÔI PET 2D WIDGETABLE & BẢNG ĐIỀU KHIỂN
+   ========================================================= */
+.pet-stat-box, .pet-dream-box {
+  width: 100%;
+  background: rgba(255, 255, 255, 0.78);
+  border: 1px solid var(--border-color);
+  border-radius: 14px;
+  padding: 9px 11px;
+  text-align: left;
+}
+body.dark-mode .pet-stat-box, body.dark-mode .pet-dream-box {
+  background: rgba(30, 41, 59, 0.78);
+}
+
+.exp-bar-bg {
+  width: 100%; height: 7px; background: rgba(148, 163, 184, 0.25);
+  border-radius: 99px; overflow: hidden; margin-top: 4px;
+}
+.exp-bar-fill {
+  height: 100%; background: linear-gradient(90deg, #38bdf8, #818cf8);
+  transition: width 0.35s ease;
+}
+.mini-link-btn {
+  background: none; border: none; color: var(--primary); font-weight: 700; cursor: pointer; padding: 0; font-size: 11.5px;
+}
+.restore-streak-btn {
+  background: linear-gradient(135deg, #f59e0b, #ef4444); color: #ffffff; border: none;
+  padding: 4px 10px; border-radius: 999px; font-size: 11px; font-weight: 700; cursor: pointer;
+}
+
+.pet-rooms-grid {
+  width: 100%; display: grid; grid-template-columns: 1fr 1fr; gap: 6px;
+}
+.room-btn {
+  padding: 8px 6px; border-radius: 12px; border: 1px solid var(--border-color);
+  background: rgba(255, 255, 255, 0.75); font-size: 12px; font-weight: 600;
+  color: var(--text-main); cursor: pointer; transition: 0.2s;
+}
+body.dark-mode .room-btn { background: rgba(30, 41, 59, 0.75); }
+.room-btn.active {
+  background: var(--primary) !important; color: #ffffff !important; border-color: var(--primary);
+}
+
+/* Căn phòng 2D Widgetable bên cột phải */
+.widgetable-room { background: #fdf6e9 !important; position: relative; }
+.room-scenery { position: absolute; inset: 0; pointer-events: none; z-index: 1; display: flex; flex-direction: column; }
+.room-window {
+  width: 145px; height: 110px; background: #bae6fd; border: 6px solid #d97706;
+  border-radius: 10px; margin: 58px auto 0; display: grid; grid-template-columns: 1fr 1fr; gap: 5px; padding: 4px;
+}
+.window-pane { background: rgba(255, 255, 255, 0.45); border-radius: 4px; }
+
+.widgetable-room.room-dining { background: #fef3c7 !important; }
+.widgetable-room.room-bedroom { background: #e0e7ff !important; }
+.widgetable-room.room-bedroom .room-window { background: #1e1b4b; }
+.widgetable-room.room-bathroom { background: #cffafe !important; }
+.widgetable-room.room-park { background: #dcfce7 !important; }
+.widgetable-room.room-park .room-window { display: none; }
+
+.room-floor {
+  margin-top: auto; height: 36%; width: 100%;
+  background: repeating-linear-gradient(90deg, #eab308 0px, #eab308 38px, #ca8a04 38px, #ca8a04 40px);
+  border-top: 4px solid #b45309; display: flex; align-items: center; justify-content: center;
+}
+.widgetable-room.room-park .room-floor { background: #86efac; border-top: 4px solid #22c55e; }
+.room-rug { width: 210px; height: 60px; background: #fecdd3; border: 4px dashed #fb7185; border-radius: 50%; margin-bottom: 14px; }
+
+/* Bảng ấp trứng & Bùng sáng VFX */
+.pet-center-stage { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 16px; }
+.gacha-egg-board {
+  background: #fffbeb; border: 5px solid #f9a8d4; border-radius: 26px; padding: 22px 34px;
+  text-align: center; box-shadow: 0 12px 30px rgba(0,0,0,0.12);
+}
+.gacha-banner {
+  background: #f472b6; color: #fff; font-weight: 800; font-size: 13.5px;
+  padding: 5px 18px; border-radius: 999px; display: inline-block; margin-bottom: 12px; box-shadow: 0 4px 0 #db2777;
+}
+.egg-2d-oval { font-size: 80px; margin: 6px 0 14px; display: inline-block; animation: eggWobble 1.4s infinite ease-in-out; }
+@keyframes eggWobble { 0%,100%{transform:rotate(0)} 25%{transform:rotate(-10deg)} 75%{transform:rotate(10deg)} }
+.egg-shaking-fast { animation: eggCrazyShake 0.15s infinite !important; }
+@keyframes eggCrazyShake { 0%{transform:rotate(-14deg) scale(1.1)} 50%{transform:rotate(14deg) scale(1.15)} 100%{transform:rotate(-14deg) scale(1.1)} }
+
+.gacha-green-btn {
+  display: block; width: 100%; background: #4ade80; color: #064e3b; border: 3px solid #16a34a;
+  box-shadow: 0 4px 0 #16a34a; padding: 9px 22px; border-radius: 999px; font-size: 14.5px; font-weight: 800; cursor: pointer;
+}
+.sunburst-vfx {
+  position: absolute; width: 320px; height: 320px;
+  background: repeating-conic-gradient(from 0deg, rgba(255,255,255,0.9) 0deg 15deg, rgba(253,224,71,0.35) 15deg 30deg);
+  border-radius: 50%; mask-image: radial-gradient(circle, black 25%, transparent 70%);
+  -webkit-mask-image: radial-gradient(circle, black 25%, transparent 70%);
+  animation: spinSunburst 3s linear infinite; pointer-events: none; z-index: 5;
+}
+@keyframes spinSunburst { from{transform:rotate(0)} to{transform:rotate(360deg)} }
+
+.starter-choices-panel {
+  background: rgba(255,255,255,0.95); padding: 18px; border-radius: 22px; border: 3px solid #f472b6; text-align: center; z-index: 12;
+}
+.choice-pet-card {
+  background: #fff; border: 2px solid #f472b6; border-radius: 16px; padding: 12px 14px; cursor: pointer; color: #1e293b;
+}
+.mini-preview-pet { font-size: 36px; margin-bottom: 4px; }
+
+/* Bong bóng thoại & Biểu cảm Pet 2D */
+.widgetable-bubble {
+  background: #fff; color: #1e293b; border: 2.5px solid #1e293b; padding: 9px 15px; border-radius: 18px;
+  font-size: 13px; font-weight: 700; max-width: 265px; text-align: center; position: relative; margin-bottom: 8px;
+}
+.pet-trait-pill {
+  background: var(--primary-soft); color: var(--primary); border: 1px solid var(--primary);
+  padding: 3px 9px; border-radius: 999px; font-size: 11px; font-weight: 700;
+}
+.room-action-bar { display: flex; gap: 8px; margin-top: 14px; flex-wrap: wrap; justify-content: center; }
+.pet-action-pill {
+  background: var(--primary); color: #fff; border: none; padding: 9px 16px; border-radius: 999px; font-size: 13px; font-weight: 600; cursor: pointer;
+}
+.pet-character-wrap { cursor: pointer; user-select: none; }
+.pet-anim-happy { animation: petJump 0.5s ease; }
+.pet-anim-eat { animation: petChew 0.4s infinite alternate; }
+.pet-anim-sleep { animation: sleepBreathe 2.5s infinite ease-in-out; }
+.pet-anim-annoyed { animation: annoyedShake 0.35s ease-in-out; }
+.pet-run-away { animation: runAwaySlide 0.6s ease-in forwards; }
+
+@keyframes petJump { 0%,100%{transform:translateY(0) scale(1)} 40%{transform:translateY(-16px) scale(1.06)} 70%{transform:translateY(0) scale(0.96)} }
+@keyframes petChew { from{transform:scale(1,1)} to{transform:scale(1.06,0.94)} }
+@keyframes annoyedShake { 0%,100%{transform:translateX(0)} 25%{transform:translateX(-8px) rotate(-4deg)} 75%{transform:translateX(8px) rotate(4deg)} }
+@keyframes runAwaySlide { 0%{transform:scale(1) translateX(0);opacity:1} 100%{transform:scale(0.4) translateX(180px);opacity:0} }
+/* =========================================================
+   CSS NỘI THẤT 4 PHÒNG PET & NÔNG TRẠI 6 Ô ĐẤT + CỬA HÀNG
+   ========================================================= */
+.location-status-pill, .coin-pill {
+  background: #fef08a; color: #854d0e; border: 1.5px solid #eab308;
+  padding: 4px 10px; border-radius: 999px; font-size: 11.5px; font-weight: 800;
+}
+
+/* Nội thất 4 phòng của Pet */
+.room-furniture-layer {
+  position: absolute; bottom: 23%; left: 0; right: 0;
+  display: flex; justify-content: center; align-items: flex-end; pointer-events: none; z-index: 2;
+}
+.bathtub-2d {
+  width: 250px; height: 78px; background: #fff; border: 4px solid #0284c7;
+  border-radius: 14px 14px 50px 50px; position: relative;
+}
+.bathtub-2d::before { content: "🫧 🫧 🧼 🫧 🫧"; position: absolute; top: -18px; left: 0; right: 0; text-align: center; font-size: 18px; }
+.bathtub-faucet { position: absolute; right: 12px; top: -32px; font-size: 28px; }
+.bed-2d {
+  width: 260px; height: 70px; background: #a5b4fc; border: 4px solid #4f46e5; border-radius: 18px; position: relative;
+}
+.bed-2d::before { content: "🛏️ Giường mây êm ái"; position: absolute; top: 8px; left: 14px; font-size: 12px; font-weight: 800; color: #1e1b4b; }
+.dining-table-2d {
+  width: 250px; height: 56px; background: #f59e0b; border: 4px solid #b45309;
+  border-radius: 16px; display: flex; align-items: center; justify-content: space-around; font-size: 22px;
+}
+.park-decor-2d { width: 90%; display: flex; justify-content: space-between; font-size: 48px; margin-bottom: 10px; }
+
+/* Khu vực Nông trại 6 ô đất */
+.garden-arena-bg { background: linear-gradient(180deg, #dcfce7 0%, #bbf7d0 50%, #86efac 100%) !important; }
+body.dark-mode .garden-arena-bg { background: linear-gradient(180deg, #064e3b 0%, #065f46 60%, #047857 100%) !important; }
+.farm-center-area { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 14px; gap: 12px; }
+.farm-tip-banner { background: rgba(255,255,255,0.9); color: #166534; border: 1.5px solid #86efac; padding: 6px 14px; border-radius: 999px; font-size: 12px; font-weight: 700; }
+.farm-plots-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; width: 100%; max-width: 420px; }
+.soil-plot {
+  aspect-ratio: 1 / 1; background: #92400e; border: 4px solid #78350f; border-radius: 18px;
+  display: flex; flex-direction: column; align-items: center; justify-content: center; cursor: pointer;
+}
+.soil-plot.wet { background: #5c2808; border-color: #451a03; }
+.soil-plot.ready { background: #713f12; border-color: #facc15; box-shadow: 0 0 14px rgba(250,204,21,0.6); }
+.plot-plant-emoji { font-size: 38px; }
+.plot-status-tag { margin-top: 4px; font-size: 10.5px; font-weight: 700; color: #fef3c7; background: rgba(0,0,0,0.45); padding: 2px 7px; border-radius: 999px; }
+
+.farm-seed-toolbar { display: flex; align-items: center; gap: 8px; padding: 10px 12px; background: rgba(255,255,255,0.88); border-top: 1px solid var(--border-color); }
+.quick-seed-list { display: flex; gap: 6px; overflow-x: auto; flex: 1; }
+.seed-chip-btn { flex: 0 0 auto; padding: 5px 10px; border-radius: 999px; border: 1.5px solid var(--border-color); background: #fff; font-size: 11.5px; font-weight: 700; cursor: pointer; color: #1e293b; }
+.seed-chip-btn.selected { background: #16a34a; color: #fff; border-color: #15803d; }
+
+/* Kho đồ & Cửa hàng */
+.garden-items-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px; }
+.garden-slot-card, .shop-row-card {
+  background: #f8fafc; border: 1px solid var(--border-color); border-radius: 12px; padding: 8px 10px;
+  display: flex; align-items: center; justify-content: space-between; font-size: 12px;
+}
+body.dark-mode .garden-slot-card, body.dark-mode .shop-row-card { background: #1e293b; }
+.garden-list-vertical { display: flex; flex-direction: column; gap: 6px; }
+.shop-action-btn { background: var(--primary); color: #fff; border: none; padding: 5px 11px; border-radius: 999px; font-size: 11.5px; font-weight: 700; cursor: pointer; }
+.shop-action-btn:disabled { opacity: 0.45; cursor: not-allowed; }
+/* =========================================================
+   CSS NÚT KHO & CỬA HÀNG TO ĐẸP + THẺ LƯỚI 2 CỘT TRONG SHOP
+   ========================================================= */
+.farm-big-nav-grid {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: 8px;
+}
+.farm-nav-tile {
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  padding: 14px 6px; border-radius: 16px; border: 2px solid var(--border-color);
+  cursor: pointer; transition: 0.2s; text-align: center;
+}
+.farm-nav-tile:hover { transform: translateY(-2px); box-shadow: 0 6px 14px rgba(0,0,0,0.12); }
+.tile-inv { background: linear-gradient(135deg, #eff6ff, #dbeafe); border-color: #60a5fa; color: #1e3a8a; }
+.tile-shop { background: linear-gradient(135deg, #fefce8, #fef08a); border-color: #eab308; color: #854d0e; }
+.tile-emoji { font-size: 28px; margin-bottom: 4px; }
+.farm-nav-tile b { font-size: 13.5px; }
+.farm-nav-tile small { font-size: 10.5px; opacity: 0.85; margin-top: 2px; }
+
+/* Ô túi đồ 4 cột vuông vức */
+.garden-items-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; }
+.inv-item-tile {
+  background: rgba(255, 255, 255, 0.88); border: 1.5px solid var(--border-color);
+  border-radius: 14px; padding: 10px 4px 8px; text-align: center; position: relative;
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+}
+body.dark-mode .inv-item-tile { background: rgba(30, 41, 59, 0.88); }
+.inv-item-tile.empty { opacity: 0.45; }
+.inv-qty-badge {
+  position: absolute; top: 4px; right: 5px; background: var(--primary); color: #fff;
+  font-size: 10px; font-weight: 800; padding: 1px 6px; border-radius: 999px;
+}
+.inv-tile-icon { font-size: 26px; margin-bottom: 3px; }
+.inv-tile-name { font-size: 11px; font-weight: 700; line-height: 1.2; }
+
+/* Thanh ví & 3 tab con to rõ trong Cửa Hàng */
+.shop-wallet-bar {
+  display: flex; justify-content: space-between; align-items: center;
+  background: linear-gradient(90deg, #fef9c3, #fef08a); padding: 9px 14px;
+  border-radius: 14px; margin-bottom: 10px; border: 1.5px solid #eab308;
+  font-size: 13px; font-weight: 700; color: #854d0e;
+}
+.shop-subtabs { display: flex; gap: 6px; margin-bottom: 12px; }
+.sub-tab-btn {
+  flex: 1; padding: 9px 4px; border-radius: 12px; border: 1.5px solid var(--border-color);
+  background: rgba(255,255,255,0.7); font-size: 11.5px; font-weight: 700;
+  color: var(--text-main); cursor: pointer; transition: 0.2s;
+}
+body.dark-mode .sub-tab-btn { background: rgba(30, 41, 59, 0.7); }
+.sub-tab-btn.active {
+  background: var(--primary) !important; color: #ffffff !important; border-color: var(--primary);
+}
+
+/* Lưới thẻ vật phẩm 2 cột trong Cửa Hàng */
+.shop-cards-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 9px; }
+.shop-card-box {
+  background: rgba(255, 255, 255, 0.88); border: 1.5px solid var(--border-color);
+  border-radius: 16px; padding: 11px 8px; text-align: center;
+  display: flex; flex-direction: column; justify-content: space-between; gap: 6px;
+}
+body.dark-mode .shop-card-box { background: rgba(30, 41, 59, 0.88); }
+.shop-card-icon { font-size: 28px; }
+.shop-card-title { font-size: 12.5px; font-weight: 800; }
+.shop-card-sub { font-size: 11px; color: var(--text-muted); }
+.shop-btn-group { display: flex; gap: 5px; justify-content: center; margin-top: 2px; }
+/* Khóa lưới Kho & Cửa hàng chống tràn chữ */
+.farm-big-nav-grid {
+  width: 100%;
+  grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+}
+.farm-nav-tile { min-width: 0; aspect-ratio: 1.15 / 1; }
+.garden-items-grid { grid-template-columns: repeat(4, minmax(0, 1fr)) !important; }
+.inv-tile-name, .shop-card-title {
+  width: 100%;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.shop-cards-grid { grid-template-columns: repeat(2, minmax(0, 1fr)) !important; }
+.shop-card-box { min-width: 0; }
+
+/* Cân chỉnh tỉ lệ Pet, bong bóng thoại & nội thất 4 phòng */
+.room-furniture-layer { bottom: 26% !important; z-index: 2; }
+#activePetStage {
+  position: relative;
+  z-index: 4;
+  justify-content: flex-end !important;
+  padding-bottom: 28px !important;
+}
+.widgetable-bubble {
+  max-width: 85% !important;
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.12);
+  margin-bottom: 6px !important;
+}
+#petSvgContainer svg { width: 128px !important; height: 128px !important; }
+/* =========================================================
+   TỐI ƯU GIAO DIỆN ĐIỆN THOẠI CHUẨN MÀN HÌNH DỌC (MOBILE UI)
+   ========================================================= */
+@media screen and (max-width: 768px) {
+  body {
+    padding: 0 !important;
+    overflow: hidden;
+  }
+
+  .app {
     width: 100vw !important;
     height: 100dvh !important;
-    max-width: 100vw !important;
-    margin: 0 !important;
-    padding: 0 !important;
+    max-height: 100dvh !important;
     border-radius: 0 !important;
-}
-
-.app.full-chat-mode .main-layout {
     padding: 0 !important;
-    height: 100dvh !important;
+    gap: 0 !important;
+    border: none !important;
+  }
+
+  .topbar {
+    padding: 8px 12px !important;
+    flex-shrink: 0;
+  }
+  .brand-icon { width: 34px !important; height: 34px !important; font-size: 17px !important; }
+  .brand h1 { font-size: 15px !important; }
+  .brand p { font-size: 11px !important; }
+  .settings-top-btn { padding: 6px 12px !important; font-size: 12px !important; }
+
+  .main-layout {
+    display: flex !important;
+    flex-direction: column !important;
+    flex: 1 !important;
+    padding: 6px 8px !important;
+    gap: 6px !important;
+    min-height: 0 !important;
+    overflow: hidden;
+  }
+
+  /* Khối điều khiển phía trên: gọn nhẹ để nhường không gian cho khung chính */
+  .left-panel {
     width: 100% !important;
-}
+    height: auto !important;
+    max-height: 36dvh;
+    overflow-y: auto;
+    padding: 8px 10px !important;
+    border-radius: 16px !important;
+    flex-direction: column !important;
+    gap: 6px !important;
+    flex-shrink: 0;
+  }
 
-.app.full-chat-mode .right-chat-panel {
-    width: 100% !important;
-    height: 100dvh !important;
-    max-width: 100% !important;
-    border-radius: 0 !important;
-    margin: 0 !important;
-}
-/* CHỈ ÁP DỤNG KHI PHÓNG TO TRÊN MÀN HÌNH PC (TỪ 768PX TRỞ LÊN) */
-@media (min-width: 768px) {
-    .app.full-chat-mode {
-        display: flex !important;
-        justify-content: center !important;
-        align-items: center !important;
-        background: #fff9fb !important;
-    }
+  .left-tabs { margin-bottom: 4px !important; padding: 3px !important; }
+  .l-tab { font-size: 11.5px !important; padding: 6px 4px !important; }
 
-    .app.full-chat-mode .main-layout {
-        width: 100% !important;
-        max-width: 900px !important;
-        margin: 0 auto !important;
-        display: flex !important;
-        justify-content: center !important;
-    }
+  /* Tab Linh vật thu gọn thành hàng ngang trên Mobile */
+  #tab-mascot {
+    flex-direction: row !important;
+    justify-content: space-between !important;
+    align-items: center !important;
+    gap: 10px;
+  }
+  .mascot-stage { display: flex !important; align-items: center; gap: 8px; padding: 0 !important; }
+  .chibi-avatar { width: 48px !important; height: 48px !important; }
+  .mascot-name { margin: 0 !important; font-size: 12.5px !important; padding: 4px 10px !important; }
+  .left-panel .action-buttons { display: none !important; }
 
-    .app.full-chat-mode .right-chat-panel {
-        width: 100% !important;
-        max-width: 900px !important;
-        height: 100dvh !important;
-        margin: 0 auto !important;
-        box-shadow: 0 0 25px rgba(0, 0, 0, 0.05) !important;
-    }
+  /* Tab Pet & Nông trại gọn gàng trên Mobile */
+  .pet-stat-box, .pet-dream-box { padding: 6px 9px !important; font-size: 11.5px !important; }
+  .pet-rooms-grid { grid-template-columns: repeat(4, 1fr) !important; gap: 4px !important; }
+  .room-btn { padding: 6px 2px !important; font-size: 10.5px !important; }
+  .farm-big-nav-grid { margin-top: 4px !important; gap: 6px !important; }
+  .farm-nav-tile { aspect-ratio: auto !important; padding: 7px 6px !important; flex-direction: row !important; gap: 6px; }
+  .tile-emoji { font-size: 18px !important; margin: 0 !important; }
+  .farm-nav-tile small { display: none; }
+
+  /* Khung chính bên dưới (Chat / Phòng Pet / Vườn 6 ô đất) */
+  .right-chat-panel {
+    flex: 1 !important;
+    height: auto !important;
+    min-height: 0 !important;
+    border-radius: 16px !important;
+  }
+  .chat-panel-header { padding: 7px 12px !important; }
+  .chat-display { padding: 10px !important; gap: 8px !important; }
+  .bubble { max-width: 88% !important; font-size: 13.5px !important; padding: 9px 13px !important; }
+
+  /* Dải nút nhanh & Ô nhập tin nhắn chống bàn phím che */
+  .fullchat-quick-actions { padding: 5px 8px !important; gap: 5px !important; }
+  .fullchat-quick-actions button { padding: 5px 10px !important; font-size: 11.5px !important; }
+  .chat-input-box {
+    padding: 7px 8px calc(7px + env(safe-area-inset-bottom)) !important;
+    gap: 5px !important;
+  }
+  .chat-input-box input { height: 38px !important; font-size: 14px !important; padding: 0 12px !important; }
+  .mic-btn { width: 38px !important; height: 38px !important; }
+  .send-btn { height: 38px !important; padding: 0 13px !important; font-size: 13px !important; }
+
+  /* Vườn 6 ô đất & Phòng Pet vừa vặn trên màn hình dọc */
+  .farm-plots-grid { gap: 8px !important; max-width: 310px !important; }
+  .plot-plant-emoji { font-size: 30px !important; }
+  .room-window { width: 115px !important; height: 85px !important; margin-top: 42px !important; }
+  .bathtub-2d, .bed-2d, .dining-table-2d { width: 200px !important; }
+  #petSvgContainer svg { width: 105px !important; height: 105px !important; }
+
+  /* Modal Cài đặt, Kho & Cửa hàng trên Mobile */
+  .modal-card { padding: 16px !important; max-height: 86dvh; overflow-y: auto; border-radius: 20px !important; }
+  .garden-items-grid { grid-template-columns: repeat(3, minmax(0, 1fr)) !important; }
 }
