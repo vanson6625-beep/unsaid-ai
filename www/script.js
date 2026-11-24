@@ -1376,21 +1376,42 @@ function setPetBubble(text) {
     bubble.textContent = text;
 }
 
-function gainPetExp(amount, message) {
+function gainPetExp(amount, message, isFromFarming = false) {
     const pet = getFullPetState();
     if (!pet) return;
+
+    const today = new Date().toDateString();
+    if (pet.dailyExpDate !== today) {
+        pet.dailyExpDate = today;
+        pet.dailyFreeExp = 0;
+    }
+
+    let actualGain = amount;
+    let limitNote = "";
+    if (!isFromFarming) {
+        const remainFree = Math.max(0, 60 - (pet.dailyFreeExp || 0));
+        if (remainFree <= 0) {
+            setPetBubble(`${message} (Đã đạt giới hạn 60 EXP miễn phí hôm nay — Hãy trồng cây đổi món ngon để tăng tiếp EXP nhé! 🌾🍲)`);
+            return;
+        }
+        actualGain = Math.min(amount, remainFree);
+        pet.dailyFreeExp = (pet.dailyFreeExp || 0) + actualGain;
+        limitNote = ` [EXP thường: ${pet.dailyFreeExp}/60]`;
+    }
+
     const oldLevel = Math.floor(pet.exp / 100) + 1;
-    pet.exp += amount;
+    pet.exp += actualGain;
     const newLevel = Math.floor(pet.exp / 100) + 1;
     saveFullPetState(pet);
     renderActivePetUI();
 
     if (newLevel > oldLevel) {
-        setPetBubble(`🎉 Tuyệt vời! Tớ đã lớn lên Cấp ${newLevel} rồi nè! (+${amount} EXP)`);
+        setPetBubble(`🎉 Tuyệt vời! Tớ đã lớn lên Cấp ${newLevel} rồi nè! (+${actualGain} EXP)${limitNote}`);
     } else {
-        setPetBubble(`${message} (+${amount} EXP)`);
+        setPetBubble(`${message} (+${actualGain} EXP)${limitNote}`);
     }
 }
+
 // =========================================================
 // HỆ THỐNG NUÔI PET 2D WIDGETABLE (PHẦN 3/3)
 // =========================================================
@@ -1626,7 +1647,7 @@ function feedCraftedDish() {
     saveFullPetState(pet);
 
     triggerPetExpression('eat', 'pet-anim-eat');
-    gainPetExp(dish.exp, trait.eatLines[0] + ' (' + dish.name + ')');
+    gainPetExp(dish.exp, trait.eatLines[0] + ' (' + dish.name + ')', true);
     switchPetRoom('dining');
 }
 
@@ -1634,9 +1655,25 @@ function feedPetMeal(foodName, expGain) {
     const pet = getFullPetState();
     const trait = petPersonalities.find(t => t.id === pet.traitId) || petPersonalities[0];
     pet.isSleeping = false;
+
+    const today = new Date().toDateString();
+    if (pet.milkDate !== today) {
+        pet.milkDate = today;
+        pet.milkCount = 0;
+    }
+    const now = Date.now();
+    if (pet.milkCount >= 3 || (pet.lastMilkTime && now - pet.lastMilkTime < 60000)) {
+        saveFullPetState(pet);
+        triggerPetExpression('eat', 'pet-anim-eat');
+        setPetBubble(`🥛 Bé no sữa rồi (${pet.milkCount}/3 lượt hôm nay)! Hãy sang Khu Vườn trồng cây đổi món ngon để tăng nhiều EXP hơn nhé! 🌾`);
+        return;
+    }
+
+    pet.milkCount += 1;
+    pet.lastMilkTime = now;
     saveFullPetState(pet);
     triggerPetExpression('eat', 'pet-anim-eat');
-    gainPetExp(expGain, `${trait.eatLines[0]} (${foodName})`);
+    gainPetExp(expGain, `${trait.eatLines[0]} (${foodName} ${pet.milkCount}/3)`, false);
 }
 
 function togglePetSleep(sleepState) {
@@ -2379,4 +2416,11 @@ function handleCustomAvatarUpload(event) {
         img.src = e.target.result;
     };
     reader.readAsDataURL(file);
+}
+function toggleFullGarden() {
+    const appRoot = document.getElementById('appRoot');
+    const btn = document.getElementById('farmFullscreenBtn');
+    if (!appRoot) return;
+    const isFull = appRoot.classList.toggle('full-garden-mode');
+    if (btn) btn.textContent = isFull ? "🗗 Thu nhỏ" : "⛶ Phóng to";
 }
