@@ -156,7 +156,13 @@ function startApp(isAutoLoad = false) {
     if (mascotEmoji) mascotEmoji.innerHTML = getChibiSVG(key);
     if (mascotName) mascotName.textContent = displayName;
     if (greetingBubble) greetingBubble.textContent = currentMascot.greeting;
-    if (headerIcon) headerIcon.textContent = currentMascot.emoji;
+    if (headerIcon) {
+        if (savedData.customAvatarImg) {
+            headerIcon.innerHTML = `<img src="${savedData.customAvatarImg}" style="width:100%;height:100%;object-fit:cover;border-radius:12px;">`;
+        } else {
+            headerIcon.textContent = savedData.customAvatarEmoji || currentMascot.emoji;
+        }
+    }
     if (headerTitle) headerTitle.textContent = displayName; 
     if (!loadSavedChatHistory()) 
         showStarterPrompts();
@@ -1524,13 +1530,15 @@ function getCartoonRoomSVG(roomName) {
             lt + 'rect x="85" y="110" width="95" height="10" rx="5" fill="#0284c7"/>' +
             lt + 'rect x="100" y="82" width="18" height="28" rx="5" fill="#f472b6"/>' +
             lt + 'circle cx="145" cy="96" r="12" fill="#facc15"/>' +
-            lt + 'path d="M175,185 H425 L405,248 Q400,262 380,262 H220 Q200,262 195,248 Z" fill="#ffffff" stroke="#0284c7" stroke-width="5"/>' +
-            lt + 'circle cx="220" cy="180" r="14" fill="#ffffff" stroke="#7dd3fc" stroke-width="2"/>' +
-            lt + 'circle cx="248" cy="176" r="17" fill="#ffffff" stroke="#7dd3fc" stroke-width="2"/>' +
-            lt + 'circle cx="280" cy="180" r="13" fill="#ffffff" stroke="#7dd3fc" stroke-width="2"/>' +
-            lt + 'circle cx="355" cy="178" r="15" fill="#ffffff" stroke="#7dd3fc" stroke-width="2"/>' +
-            lt + 'path d="M415,185 V145 Q415,132 400,132 H392" fill="none" stroke="#64748b" stroke-width="6" stroke-linecap="round"/>' +
-            lt + 'ellipse cx="300" cy="296" rx="145" ry="30" fill="#bae6fd" stroke="#0284c7" stroke-width="3"/>' +
+            lt + 'g transform="translate(-45, 72) scale(0.68)">' +
+                lt + 'path d="M175,185 H425 L405,248 Q400,262 380,262 H220 Q200,262 195,248 Z" fill="#ffffff" stroke="#0284c7" stroke-width="5"/>' +
+                lt + 'circle cx="220" cy="180" r="14" fill="#ffffff" stroke="#7dd3fc" stroke-width="2"/>' +
+                lt + 'circle cx="248" cy="176" r="17" fill="#ffffff" stroke="#7dd3fc" stroke-width="2"/>' +
+                lt + 'circle cx="280" cy="180" r="13" fill="#ffffff" stroke="#7dd3fc" stroke-width="2"/>' +
+                lt + 'circle cx="355" cy="178" r="15" fill="#ffffff" stroke="#7dd3fc" stroke-width="2"/>' +
+                lt + 'path d="M415,185 V145 Q415,132 400,132 H392" fill="none" stroke="#64748b" stroke-width="6" stroke-linecap="round"/>' +
+                lt + '/g>' +
+                lt + 'ellipse cx="365" cy="296" rx="115" ry="26" fill="#bae6fd" stroke="#0284c7" stroke-width="3"/>' +
         lt + '/svg>';
     }
     return lt + 'svg viewBox="0 0 600 360" preserveAspectRatio="xMidYMax slice" style="width:100%;height:100%;display:block;">' +
@@ -2340,3 +2348,35 @@ window.addEventListener('DOMContentLoaded', () => {
         } catch (e) {}
     }, 1500);
 });
+function selectPresetAvatar(emoji) {
+    let savedData = JSON.parse(localStorage.getItem('unsaid_app_data') || '{}');
+    savedData.customAvatarEmoji = emoji;
+    delete savedData.customAvatarImg;
+    localStorage.setItem('unsaid_app_data', JSON.stringify(savedData));
+    const headerIcon = document.getElementById('headerIcon');
+    if (headerIcon) headerIcon.textContent = emoji;
+}
+
+function handleCustomAvatarUpload(event) {
+    const file = event.target.files?.[0];
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = function(e) {
+        const img = new Image();
+        img.onload = function() {
+            const canvas = document.createElement('canvas');
+            canvas.width = 128; canvas.height = 128;
+            const ctx = canvas.getContext('2d');
+            const minSide = Math.min(img.width, img.height);
+            ctx.drawImage(img, (img.width - minSide)/2, (img.height - minSide)/2, minSide, minSide, 0, 0, 128, 128);
+            const dataUrl = canvas.toDataURL('image/jpeg', 0.8);
+            let savedData = JSON.parse(localStorage.getItem('unsaid_app_data') || '{}');
+            savedData.customAvatarImg = dataUrl;
+            localStorage.setItem('unsaid_app_data', JSON.stringify(savedData));
+            const headerIcon = document.getElementById('headerIcon');
+            if (headerIcon) headerIcon.innerHTML = `<img src="${dataUrl}" style="width:100%;height:100%;object-fit:cover;border-radius:12px;">`;
+        };
+        img.src = e.target.result;
+    };
+    reader.readAsDataURL(file);
+}

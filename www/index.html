@@ -155,13 +155,12 @@
             <span class="chat-panel-title" id="petRoomHeaderTitle">🍽️ Nhà ăn ấm cúng</span>
             <span id="petLocationBadge" class="location-status-pill">📍 Bé đang ở: Nhà ăn</span>
           </div>
-
+<div id="roomFurnitureLayer" class="room-furniture-layer"></div>
           <div id="roomFullScenery" class="room-scenery">
             <div class="room-window">
               <div class="window-pane"></div>
               <div class="window-pane"></div>
             </div>
-            <div id="roomFurnitureLayer" class="room-furniture-layer"></div>
             <div class="room-floor">
               <div class="room-rug"></div>
             </div>
@@ -378,6 +377,23 @@
                 </select>
             </div>
             <button class="apply-persona-btn" onclick="applyNewPersona()">Lưu thay đổi nhân vật</button>
+        </div>
+        <div class="setting-item">
+          <span class="setting-sub">🖼️ Ảnh đại diện góc trên (Chọn mẫu hoặc tải ảnh):</span>
+          <div id="avatarPresetGrid" style="display:flex; gap:6px; flex-wrap:wrap; margin-bottom:8px;">
+            <button type="button" class="avt-preset-btn" onclick="selectPresetAvatar('🧸')">🧸</button>
+            <button type="button" class="avt-preset-btn" onclick="selectPresetAvatar('🤖')">🤖</button>
+            <button type="button" class="avt-preset-btn" onclick="selectPresetAvatar('🐱')">🐱</button>
+            <button type="button" class="avt-preset-btn" onclick="selectPresetAvatar('🦾')">🦾</button>
+            <button type="button" class="avt-preset-btn" onclick="selectPresetAvatar('🦊')">🦊</button>
+            <button type="button" class="avt-preset-btn" onclick="selectPresetAvatar('🐰')">🐰</button>
+            <button type="button" class="avt-preset-btn" onclick="selectPresetAvatar('🌸')">🌸</button>
+            <button type="button" class="avt-preset-btn" onclick="selectPresetAvatar('⚡')">⚡</button>
+          </div>
+          <label class="apply-persona-btn" style="display:block; text-align:center; cursor:pointer; background:#f8fafc; color:#1e293b; border:1px solid #cbd5e1;">
+            📁 Tải ảnh đại diện từ máy...
+            <input type="file" id="customAvatarUpload" accept="image/*" style="display:none;" onchange="handleCustomAvatarUpload(event)">
+          </label>
         </div>
 
         <hr class="setting-divider">
