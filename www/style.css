@@ -1129,3 +1129,146 @@ body.dark-mode .shop-card-box { background: rgba(30, 41, 59, 0.88); }
   .modal-card { padding: 16px !important; max-height: 86dvh; overflow-y: auto; border-radius: 20px !important; }
   .garden-items-grid { grid-template-columns: repeat(3, minmax(0, 1fr)) !important; }
 }
+/* =========================================================
+   NÂNG CẤP NÔNG TRẠI 12 Ô, BẢNG HẠT GIỐNG & CẢNH QUAN PET ĐẸP
+   ========================================================= */
+.farm-plots-grid {
+  grid-template-columns: repeat(4, minmax(0, 1fr)) !important;
+  max-width: 540px !important;
+  gap: 12px !important;
+}
+.soil-plot {
+  aspect-ratio: 1 / 1;
+  border-radius: 18px !important;
+  background: linear-gradient(180deg, #a16207 0%, #713f12 100%) !important;
+  border: 3px solid #854d0e !important;
+  box-shadow: inset 0 4px 8px rgba(0,0,0,0.28), 0 4px 10px rgba(0,0,0,0.08);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 6px !important;
+}
+.soil-plot.wet {
+  background: linear-gradient(180deg, #78350f 0%, #451a03 100%) !important;
+  border-color: #38bdf8 !important;
+}
+.soil-plot.ready {
+  border-color: #facc15 !important;
+  box-shadow: 0 0 16px rgba(250, 204, 21, 0.55);
+}
+.soil-plot.locked {
+  background: linear-gradient(180deg, #cbd5e1 0%, #94a3b8 100%) !important;
+  border-color: #64748b !important;
+}
+.soil-plot.ad-lock {
+  background: linear-gradient(180deg, #c7d2fe 0%, #a5b4fc 100%) !important;
+  border-color: #6366f1 !important;
+}
+.plot-status-tag {
+  font-size: 10.5px !important;
+  padding: 2px 6px !important;
+  border-radius: 8px;
+  background: rgba(255,255,255,0.92);
+  color: #1e293b;
+  font-weight: 700;
+  margin-top: 4px;
+  white-space: nowrap;
+}
+
+/* Bảng chọn hạt giống khi chạm vào ô đất */
+.seed-picker-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+  max-height: 55vh;
+  overflow-y: auto;
+}
+.seed-pick-card {
+  border: 2px solid #e2e8f0;
+  border-radius: 14px;
+  padding: 10px 8px;
+  text-align: center;
+  background: #f8fafc;
+  cursor: pointer;
+  transition: 0.2s;
+}
+.seed-pick-card:hover { border-color: #22c55e; background: #f0fdf4; transform: translateY(-2px); }
+.seed-pick-card.disabled { opacity: 0.5; }
+.sp-name { font-weight: 700; font-size: 13px; color: #0f172a; margin-top: 4px; }
+.sp-qty { font-size: 11.5px; color: #16a34a; margin: 2px 0; }
+.sp-time { font-size: 10.5px; color: #64748b; }
+
+/* Làm đẹp cảnh quan 4 phòng Pet & sửa lỗi che bàn ăn */
+.room-dining { background: linear-gradient(180deg, #ffedd5 0%, #fed7aa 64%, #d97706 64%, #b45309 100%) !important; }
+.room-bedroom { background: linear-gradient(180deg, #e0e7ff 0%, #c7d2fe 64%, #6366f1 64%, #4338ca 100%) !important; }
+.room-bathroom { background: linear-gradient(180deg, #cffafe 0%, #a5f3fc 64%, #06b6d4 64%, #0e7490 100%) !important; }
+.room-park { background: linear-gradient(180deg, #bae6fd 0%, #e0f2fe 62%, #4ade80 62%, #16a34a 100%) !important; }
+
+.room-furniture-layer {
+  bottom: 34% !important;
+  z-index: 2;
+  filter: drop-shadow(0 8px 12px rgba(0,0,0,0.16));
+}
+.dining-table-2d {
+  width: 240px !important;
+  height: 54px !important;
+  background: linear-gradient(180deg, #fffbeb 0%, #fde68a 100%) !important;
+  border: 3px solid #b45309 !important;
+  border-radius: 18px 18px 10px 10px !important;
+  font-size: 24px !important;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+}
+#activePetStage {
+  padding-bottom: 56px !important;
+}
+.room-action-bar {
+  bottom: 10px !important;
+  z-index: 10 !important;
+}
+
+/* Tách biệt bố cục Mobile gọn gàng, không rối mắt */
+@media screen and (max-width: 768px) {
+  .left-panel {
+    max-height: 29dvh !important;
+    padding: 6px 10px !important;
+  }
+  .pet-dream-box, .pet-guide-link { display: none !important; }
+  .pet-stat-box { padding: 5px 8px !important; margin-bottom: 4px !important; }
+  .pet-sub-stats { font-size: 10.5px !important; margin-top: 3px !important; }
+  .pet-rooms-grid { gap: 4px !important; }
+  .room-btn { padding: 5px 2px !important; font-size: 10.5px !important; }
+
+  .farm-plots-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+    max-width: 330px !important;
+    gap: 8px !important;
+  }
+  .room-furniture-layer { bottom: 36% !important; }
+  .dining-table-2d { width: 195px !important; height: 44px !important; font-size: 20px !important; }
+  #activePetStage { padding-bottom: 52px !important; }
+}
+/* Tranh nền hoạt hình 2D phủ kín 4 phòng & Pet luôn đứng phía trước nội thất */
+.room-scenery { display: none !important; }
+.room-furniture-layer {
+  position: absolute !important;
+  inset: 0 !important;
+  width: 100% !important;
+  height: 100% !important;
+  z-index: 1 !important;
+  pointer-events: none !important;
+  filter: none !important;
+}
+#activePetStage {
+  position: relative !important;
+  z-index: 5 !important;
+  justify-content: flex-end !important;
+  padding-bottom: 58px !important;
+}
+.room-action-bar {
+  position: relative !important;
+  z-index: 8 !important;
+  margin-top: 8px !important;
+}

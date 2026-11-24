@@ -1463,6 +1463,99 @@ function goFindAngryPet() {
     triggerPetExpression('happy', 'pet-anim-happy');
     gainPetExp(8, "Hì hì, thấy cậu chạy tới dỗ nên tớ hết giận rồi nè! 💖");
 }
+function getCartoonRoomSVG(roomName) {
+    const lt = '<';
+    if (roomName === 'dining') {
+        return lt + 'svg viewBox="0 0 600 360" preserveAspectRatio="xMidYMax slice" style="width:100%;height:100%;display:block;">' +
+            lt + 'rect width="600" height="245" fill="#fff7ed"/>' +
+            lt + 'path d="M0,40 H600 M0,80 H600 M0,120 H600 M0,160 H600 M0,200 H600" stroke="#fed7aa" stroke-width="2" opacity="0.5"/>' +
+            lt + 'rect y="245" width="600" height="115" fill="#d97706"/>' +
+            lt + 'path d="M0,275 H600 M0,305 H600 M0,335 H600" stroke="#92400e" stroke-width="2" opacity="0.45"/>' +
+            lt + 'rect x="235" y="38" width="130" height="95" rx="12" fill="#bae6fd" stroke="#92400e" stroke-width="6"/>' +
+            lt + 'path d="M300,38 V133 M235,85 H365" stroke="#92400e" stroke-width="5"/>' +
+            lt + 'circle cx="268" cy="64" r="11" fill="#ffffff" opacity="0.85"/>' +
+            lt + 'circle cx="282" cy="64" r="14" fill="#ffffff" opacity="0.85"/>' +
+            lt + 'rect x="65" y="65" width="110" height="12" rx="6" fill="#b45309"/>' +
+            lt + 'rect x="80" y="37" width="22" height="28" rx="4" fill="#f43f5e"/>' +
+            lt + 'rect x="112" y="43" width="20" height="22" rx="4" fill="#38bdf8"/>' +
+            lt + 'circle cx="152" cy="53" r="12" fill="#22c55e"/>' +
+            lt + 'rect x="435" y="95" width="95" height="150" rx="14" fill="#fef3c7" stroke="#b45309" stroke-width="4"/>' +
+            lt + 'path d="M435,165 H530" stroke="#b45309" stroke-width="4"/>' +
+            lt + 'rect x="448" y="125" width="6" height="24" rx="3" fill="#92400e"/>' +
+            lt + 'rect x="448" y="180" width="6" height="28" rx="3" fill="#92400e"/>' +
+            lt + 'ellipse cx="300" cy="285" rx="155" ry="34" fill="#fecdd3" stroke="#fb7185" stroke-width="3" stroke-dasharray="8 6"/>' +
+            lt + 'rect x="195" y="218" width="210" height="36" rx="16" fill="#fffbeb" stroke="#b45309" stroke-width="4"/>' +
+            lt + 'path d="M210,236 Q230,248 250,236 Q270,248 290,236 Q310,248 330,236 Q350,248 370,236 Q385,244 395,236" fill="none" stroke="#f59e0b" stroke-width="3"/>' +
+            lt + 'rect x="225" y="254" width="14" height="24" rx="4" fill="#92400e"/>' +
+            lt + 'rect x="361" y="254" width="14" height="24" rx="4" fill="#92400e"/>' +
+            lt + 'circle cx="255" cy="212" r="10" fill="#ef4444"/>' +
+            lt + 'ellipse cx="300" cy="215" rx="18" ry="6" fill="#ffffff" stroke="#cbd5e1" stroke-width="2"/>' +
+            lt + 'rect x="338" y="202" width="14" height="16" rx="3" fill="#38bdf8"/>' +
+        lt + '/svg>';
+    }
+    if (roomName === 'bedroom') {
+        return lt + 'svg viewBox="0 0 600 360" preserveAspectRatio="xMidYMax slice" style="width:100%;height:100%;display:block;">' +
+            lt + 'rect width="600" height="245" fill="#e0e7ff"/>' +
+            lt + 'rect y="245" width="600" height="115" fill="#6366f1"/>' +
+            lt + 'rect x="240" y="36" width="120" height="95" rx="14" fill="#1e1b4b" stroke="#4f46e5" stroke-width="6"/>' +
+            lt + 'circle cx="275" cy="68" r="14" fill="#fde047"/>' +
+            lt + 'circle cx="282" cy="63" r="12" fill="#1e1b4b"/>' +
+            lt + 'circle cx="328" cy="62" r="2.5" fill="#ffffff"/>' +
+            lt + 'circle cx="315" cy="95" r="2" fill="#ffffff"/>' +
+            lt + 'circle cx="338" cy="102" r="2.5" fill="#ffffff"/>' +
+            lt + 'rect x="75" y="65" width="75" height="60" rx="10" fill="#fce7f3" stroke="#ec4899" stroke-width="4"/>' +
+            lt + 'circle cx="112" cy="95" r="15" fill="#f472b6"/>' +
+            lt + 'rect x="165" y="165" width="270" height="88" rx="20" fill="#a5b4fc" stroke="#4338ca" stroke-width="4"/>' +
+            lt + 'rect x="185" y="148" width="95" height="32" rx="12" fill="#ffffff" stroke="#818cf8" stroke-width="3"/>' +
+            lt + 'rect x="320" y="148" width="95" height="32" rx="12" fill="#ffffff" stroke="#818cf8" stroke-width="3"/>' +
+            lt + 'rect x="165" y="195" width="270" height="45" rx="14" fill="#c7d2fe" stroke="#4338ca" stroke-width="3"/>' +
+            lt + 'rect x="455" y="195" width="65" height="55" rx="10" fill="#818cf8" stroke="#3730a3" stroke-width="3"/>' +
+            lt + 'polygon points="468,195 507,195 498,165 477,165" fill="#fef08a" stroke="#eab308" stroke-width="3"/>' +
+            lt + 'ellipse cx="300" cy="292" rx="165" ry="34" fill="#ddd6fe" stroke="#8b5cf6" stroke-width="3"/>' +
+        lt + '/svg>';
+    }
+    if (roomName === 'bathroom') {
+        return lt + 'svg viewBox="0 0 600 360" preserveAspectRatio="xMidYMax slice" style="width:100%;height:100%;display:block;">' +
+            lt + 'rect width="600" height="245" fill="#cffafe"/>' +
+            lt + 'path d="M0,50 H600 M0,100 H600 M0,150 H600 M0,200 H600 M100,0 V245 M200,0 V245 M300,0 V245 M400,0 V245 M500,0 V245" stroke="#a5f3fc" stroke-width="2"/>' +
+            lt + 'rect y="245" width="600" height="115" fill="#06b6d4"/>' +
+            lt + 'circle cx="300" cy="88" r="48" fill="#e0f2fe" stroke="#0284c7" stroke-width="6"/>' +
+            lt + 'path d="M278,68 L305,98 M292,62 L315,86" stroke="#ffffff" stroke-width="4" stroke-linecap="round" opacity="0.75"/>' +
+            lt + 'rect x="85" y="110" width="95" height="10" rx="5" fill="#0284c7"/>' +
+            lt + 'rect x="100" y="82" width="18" height="28" rx="5" fill="#f472b6"/>' +
+            lt + 'circle cx="145" cy="96" r="12" fill="#facc15"/>' +
+            lt + 'path d="M175,185 H425 L405,248 Q400,262 380,262 H220 Q200,262 195,248 Z" fill="#ffffff" stroke="#0284c7" stroke-width="5"/>' +
+            lt + 'circle cx="220" cy="180" r="14" fill="#ffffff" stroke="#7dd3fc" stroke-width="2"/>' +
+            lt + 'circle cx="248" cy="176" r="17" fill="#ffffff" stroke="#7dd3fc" stroke-width="2"/>' +
+            lt + 'circle cx="280" cy="180" r="13" fill="#ffffff" stroke="#7dd3fc" stroke-width="2"/>' +
+            lt + 'circle cx="355" cy="178" r="15" fill="#ffffff" stroke="#7dd3fc" stroke-width="2"/>' +
+            lt + 'path d="M415,185 V145 Q415,132 400,132 H392" fill="none" stroke="#64748b" stroke-width="6" stroke-linecap="round"/>' +
+            lt + 'ellipse cx="300" cy="296" rx="145" ry="30" fill="#bae6fd" stroke="#0284c7" stroke-width="3"/>' +
+        lt + '/svg>';
+    }
+    return lt + 'svg viewBox="0 0 600 360" preserveAspectRatio="xMidYMax slice" style="width:100%;height:100%;display:block;">' +
+        lt + 'rect width="600" height="240" fill="#bae6fd"/>' +
+        lt + 'circle cx="510" cy="58" r="28" fill="#fde047" opacity="0.9"/>' +
+        lt + 'circle cx="130" cy="65" r="22" fill="#ffffff" opacity="0.9"/>' +
+        lt + 'circle cx="155" cy="60" r="28" fill="#ffffff" opacity="0.9"/>' +
+        lt + 'circle cx="182" cy="66" r="20" fill="#ffffff" opacity="0.9"/>' +
+        lt + 'ellipse cx="140" cy="255" rx="220" ry="70" fill="#86efac"/>' +
+        lt + 'ellipse cx="470" cy="255" rx="220" ry="75" fill="#4ade80"/>' +
+        lt + 'rect y="235" width="600" height="125" fill="#22c55e"/>' +
+        lt + 'rect x="85" y="145" width="22" height="95" rx="6" fill="#92400e"/>' +
+        lt + 'circle cx="96" cy="115" r="46" fill="#16a34a"/>' +
+        lt + 'circle cx="68" cy="130" r="32" fill="#15803d"/>' +
+        lt + 'circle cx="124" cy="130" r="32" fill="#15803d"/>' +
+        lt + 'rect x="215" y="192" width="170" height="14" rx="5" fill="#d97706" stroke="#78350f" stroke-width="3"/>' +
+        lt + 'rect x="215" y="212" width="170" height="14" rx="5" fill="#f59e0b" stroke="#78350f" stroke-width="3"/>' +
+        lt + 'rect x="232" y="226" width="12" height="22" fill="#78350f"/>' +
+        lt + 'rect x="356" y="226" width="12" height="22" fill="#78350f"/>' +
+        lt + 'circle cx="465" cy="268" r="16" fill="#ffffff" stroke="#1e293b" stroke-width="3"/>' +
+        lt + 'circle cx="465" cy="268" r="6" fill="#1e293b"/>' +
+        lt + 'circle cx="160" cy="265" r="8" fill="#f43f5e"/>' +
+        lt + 'circle cx="176" cy="272" r="7" fill="#facc15"/>' +
+    lt + '/svg>';
+}
 
 function switchPetRoom(roomName, btnEl) {
     currentPetRoom = roomName;
@@ -1484,10 +1577,7 @@ function switchPetRoom(roomName, btnEl) {
     if (locBadge) locBadge.textContent = "📍 Bé đang ở: " + (roomNames[roomName] || "Nhà ăn");
 
     if (furnitureEl) {
-        if (roomName === 'dining') furnitureEl.innerHTML = '<div class="dining-table-2d"><span>🍽️</span><span>🍎</span><span>🥛</span></div>';
-        else if (roomName === 'bedroom') furnitureEl.innerHTML = '<div class="bed-2d"></div>';
-        else if (roomName === 'bathroom') furnitureEl.innerHTML = '<div class="bathtub-2d"><span class="bathtub-faucet">🚿</span></div>';
-        else if (roomName === 'park') furnitureEl.innerHTML = '<div class="park-decor-2d"><span>🌳</span><span>🌻</span><span>🌲</span></div>';
+        furnitureEl.innerHTML = getCartoonRoomSVG(roomName);
     }
 
     if (roomName === 'dining') {
@@ -1551,9 +1641,16 @@ function togglePetSleep(sleepState) {
         triggerPetExpression('sleep', 'pet-anim-sleep');
         setPetBubble(trait.sleepLines[0]);
     } else {
+        const now = Date.now();
+        const canGain = !pet.lastSleepExpTime || (now - pet.lastSleepExpTime >= 180000);
+        if (canGain) pet.lastSleepExpTime = now;
         saveFullPetState(pet);
         triggerPetExpression('happy', 'pet-anim-happy');
-        gainPetExp(10, "Ngủ dậy khỏe khoắn quá! Cậu đọc thử giấc mơ của tớ ở cột trái nhé! ☀️");
+        if (canGain) {
+            gainPetExp(10, "Ngủ dậy khỏe khoắn quá! Cậu đọc thử giấc mơ của tớ ở cột trái nhé! ☀️");
+        } else {
+            setPetBubble("Tớ tỉnh táo rồi nè! (Chờ thêm vài phút nữa ngủ giấc mới mới nhận thêm EXP nhé ☀️)");
+        }
     }
     switchPetRoom('bedroom');
 }
@@ -1561,17 +1658,31 @@ function togglePetSleep(sleepState) {
 function bathPet() {
     const pet = getFullPetState();
     pet.isSleeping = false;
+    const now = Date.now();
+    const canGain = !pet.lastBathExpTime || (now - pet.lastBathExpTime >= 120000);
+    if (canGain) pet.lastBathExpTime = now;
     saveFullPetState(pet);
     triggerPetExpression('happy', 'pet-anim-happy');
-    gainPetExp(12, "Tắm mát sạch bong, thơm tho quá đi thôi! 🫧✨");
+    if (canGain) {
+        gainPetExp(12, "Tắm mát sạch bong, thơm tho quá đi thôi! 🫧✨");
+    } else {
+        setPetBubble("Người tớ vẫn đang thơm phức mùi xà phòng nè! Đợi 2 phút nữa tắm tiếp mới có EXP nhé! 🫧");
+    }
 }
 
 function playInPark() {
     const pet = getFullPetState();
     pet.isSleeping = false;
+    const now = Date.now();
+    const canGain = !pet.lastParkExpTime || (now - pet.lastParkExpTime >= 120000);
+    if (canGain) pet.lastParkExpTime = now;
     saveFullPetState(pet);
     triggerPetExpression('play', 'pet-anim-happy');
-    gainPetExp(15, "Chạy nhảy ngoài công viên vui hết nấc! 🌳⚽");
+    if (canGain) {
+        gainPetExp(15, "Chạy nhảy ngoài công viên vui hết nấc! 🌳⚽");
+    } else {
+        setPetBubble("Vui quá nhưng tớ hơi thở dốc rồi! Nghỉ 2 phút nữa mình đá bóng nhận EXP tiếp nhé! ⚽");
+    }
 }
 
 function openPetDiaryModal() {
@@ -1686,17 +1797,30 @@ function formatRemainTime(sec) {
     return `${sec}s`;
 }
 
+const PLOT_UNLOCK_RULES = [
+    { type: 'free' }, { type: 'free' }, { type: 'free' }, { type: 'free' },
+    { type: 'coin', cost: 40 }, { type: 'coin', cost: 80 }, { type: 'coin', cost: 150 },
+    { type: 'coin', cost: 250 }, { type: 'coin', cost: 400 }, { type: 'coin', cost: 600 },
+    { type: 'ad' }, { type: 'ad' }
+];
+
 function getFarmState() {
     let state = JSON.parse(localStorage.getItem('unsaid_farm_v2') || 'null');
     if (!state) {
         state = {
             coins: 20,
-            plots: Array.from({ length: 6 }, () => ({ cropKey: null, waters: 0, nextWaterAt: 0 })),
+            plots: Array.from({ length: 12 }, (_, i) => ({
+                cropKey: null, waters: 0, nextWaterAt: 0, unlocked: i < 4
+            })),
             seeds: { rice: 999, radish: 2, carrot: 0, potato: 0, bamboo: 0, sunflower: 0, cacao: 0, ginseng: 0 },
             crops: { rice: 0, radish: 0, carrot: 0, potato: 0, bamboo: 0, sunflower: 0, cacao: 0, ginseng: 0 }
         };
-        localStorage.setItem('unsaid_farm_v2', JSON.stringify(state));
     }
+    while (state.plots.length < 12) {
+        state.plots.push({ cropKey: null, waters: 0, nextWaterAt: 0, unlocked: state.plots.length < 4 });
+    }
+    state.plots.forEach((p, i) => { if (p.unlocked === undefined) p.unlocked = i < 6; });
+    localStorage.setItem('unsaid_farm_v2', JSON.stringify(state));
     return state;
 }
 
@@ -1713,68 +1837,132 @@ function initFarmSystem() {
         }
     }, 1000);
 }
+let activeSeedPickerPlotIdx = null;
+
+function getCropStageSVG(cropKey, stage) {
+    const lt = '<';
+    const colors = {
+        rice: "#eab308", radish: "#86efac", carrot: "#f97316", potato: "#d97706",
+        bamboo: "#16a34a", sunflower: "#facc15", cacao: "#78350f", ginseng: "#f59e0b"
+    };
+    const c = colors[cropKey] || "#22c55e";
+    if (stage === 'seed') {
+        return lt + 'svg viewBox="0 0 64 64" width="42" height="42">' +
+            lt + 'ellipse cx="32" cy="48" rx="18" ry="6" fill="#78350f" opacity="0.4"/>' +
+            lt + 'path d="M24,42 C24,30 40,30 40,42 C40,48 24,48 24,42 Z" fill="#b45309" stroke="#451a03" stroke-width="2.5"/>' +
+            lt + 'path d="M30,33 Q34,37 30,43" stroke="#fde68a" stroke-width="2" fill="none" stroke-linecap="round"/>' +
+        lt + '/svg>';
+    }
+    if (stage === 'sprout') {
+        return lt + 'svg viewBox="0 0 64 64" width="44" height="44">' +
+            lt + 'ellipse cx="32" cy="52" rx="18" ry="5" fill="#78350f" opacity="0.4"/>' +
+            lt + 'path d="M32,50 Q32,34 32,26" stroke="#15803d" stroke-width="3.5" stroke-linecap="round"/>' +
+            lt + 'path d="M32,34 Q18,24 16,34 Q24,40 32,34 Z" fill="#4ade80" stroke="#166534" stroke-width="2"/>' +
+            lt + 'path d="M32,30 Q46,20 48,30 Q40,36 32,30 Z" fill="#22c55e" stroke="#166534" stroke-width="2"/>' +
+        lt + '/svg>';
+    }
+    return lt + 'svg viewBox="0 0 64 64" width="48" height="48">' +
+        lt + 'ellipse cx="32" cy="54" rx="20" ry="6" fill="#15803d" opacity="0.35"/>' +
+        lt + 'path d="M32,52 L32,24" stroke="#15803d" stroke-width="4" stroke-linecap="round"/>' +
+        lt + 'path d="M32,42 Q14,34 14,44 Q22,50 32,42 Z" fill="#22c55e" stroke="#14532d" stroke-width="2"/>' +
+        lt + 'path d="M32,42 Q50,34 50,44 Q42,50 32,42 Z" fill="#22c55e" stroke="#14532d" stroke-width="2"/>' +
+        lt + 'circle cx="32" cy="22" r="13" fill="' + c + '" stroke="#451a03" stroke-width="2.5"/>' +
+        lt + 'circle cx="28" cy="18" r="3.5" fill="#ffffff" opacity="0.6"/>' +
+    lt + '/svg>';
+}
+
 function renderFarmArena() {
     const state = getFarmState();
     const now = Date.now();
     const coinsBadge = document.getElementById('farmCoinsBadge');
     if (coinsBadge) coinsBadge.textContent = `🪙 ${state.coins} Xu`;
 
-    const seedListEl = document.getElementById('quickSeedSelector');
-    if (seedListEl) {
-        seedListEl.innerHTML = Object.keys(CROPS_DB).map(key => {
-            const c = CROPS_DB[key];
-            const count = c.freeInfinite ? "Free" : (state.seeds[key] || 0);
-            const isSel = selectedSeedToPlant === key ? "selected" : "";
-            return `<button class="seed-chip-btn ${isSel}" onclick="selectSeedToPlant('${key}')">${c.icon} ${c.name} (${count})</button>`;
-        }).join('');
-    }
-
     const gridEl = document.getElementById('farmPlotsGrid');
     if (!gridEl) return;
 
     gridEl.innerHTML = state.plots.map((plot, idx) => {
-        if (!plot.cropKey) {
-            return `<div class="soil-plot" onclick="handlePlotClick(${idx})">
-                <span class="plot-plant-emoji" style="opacity:0.35;">🟫</span>
-                <span class="plot-status-tag">+ Gieo hạt</span>
+        const rule = PLOT_UNLOCK_RULES[idx] || { type: 'free' };
+        if (!plot.unlocked) {
+            if (rule.type === 'coin') {
+                return `<div class="soil-plot locked" onclick="handlePlotClick(${idx})">
+                    <span class="plot-plant-emoji">🔒</span>
+                    <span class="plot-status-tag" style="background:#fef08a; color:#854d0e;">🪙 ${rule.cost} Xu</span>
+                </div>`;
+            }
+            return `<div class="soil-plot locked ad-lock" onclick="handlePlotClick(${idx})">
+                <span class="plot-plant-emoji">🎬</span>
+                <span class="plot-status-tag" style="background:#e0e7ff; color:#3730a3;">Xem QC mở</span>
             </div>`;
         }
+
+        if (!plot.cropKey) {
+            return `<div class="soil-plot" onclick="handlePlotClick(${idx})">
+                <span class="plot-plant-emoji" style="opacity:0.45; font-size:26px;">➕</span>
+                <span class="plot-status-tag">Chạm gieo hạt</span>
+            </div>`;
+        }
+
         const crop = CROPS_DB[plot.cropKey];
         const remainSec = Math.max(0, Math.ceil(((plot.nextWaterAt || 0) - now) / 1000));
         const isReady = plot.waters >= crop.watersNeeded && remainSec === 0;
 
-        let stageIcon = "🌰";
-        if (isReady) stageIcon = crop.icon;
-        else if (plot.waters > 0) stageIcon = "🌱";
+        let stage = 'seed';
+        if (isReady) stage = 'ripe';
+        else if (plot.waters > 0) stage = 'sprout';
 
-        let statusText = "";
-        let plotClass = "soil-plot";
-
-        if (isReady) {
-            statusText = "✨ Thu hoạch!";
-            plotClass = "soil-plot ready";
-        } else if (remainSec > 0) {
-            statusText = `⏳ Lớn sau ${formatRemainTime(remainSec)}`;
-            plotClass = "soil-plot wet";
-        } else {
-            statusText = `💧 Tưới (${plot.waters}/${crop.watersNeeded})`;
-        }
+        let statusText = isReady ? `✨ Thu ${crop.name}` : (remainSec > 0 ? `⏳ ${formatRemainTime(remainSec)}` : `💧 Tưới (${plot.waters}/${crop.watersNeeded})`);
+        let plotClass = isReady ? "soil-plot ready" : (remainSec > 0 ? "soil-plot wet" : "soil-plot");
 
         return `<div class="${plotClass}" onclick="handlePlotClick(${idx})">
-            <span class="plot-plant-emoji">${stageIcon}</span>
+            <div class="plot-svg-wrap">${getCropStageSVG(plot.cropKey, stage)}</div>
             <span class="plot-status-tag">${statusText}</span>
         </div>`;
     }).join('');
 }
 
-function selectSeedToPlant(cropKey) {
-    selectedSeedToPlant = cropKey;
-    const c = CROPS_DB[cropKey];
-    const banner = document.getElementById('farmGuideBanner');
-    if (banner) {
-        banner.textContent = `🌰 ${c.icon} ${c.name}: Cần ${c.watersNeeded} lần tưới (mỗi lần chờ ${formatRemainTime(c.waitSec)}) • Bán ${c.sellPrice} Xu`;
+function openSeedPicker(plotIdx) {
+    activeSeedPickerPlotIdx = plotIdx;
+    const state = getFarmState();
+    const modal = document.getElementById('seedPickerModal');
+    const grid = document.getElementById('seedPickerGrid');
+    const sub = document.getElementById('seedPickerSub');
+    if (sub) sub.textContent = `Chọn hạt giống để gieo vào Ô đất số ${plotIdx + 1}:`;
+    if (grid) {
+        grid.innerHTML = Object.keys(CROPS_DB).map(key => {
+            const c = CROPS_DB[key];
+            const qty = c.freeInfinite ? "Vô hạn" : (state.seeds[key] || 0);
+            const hasSeed = c.freeInfinite || (state.seeds[key] || 0) > 0;
+            return `<div class="seed-pick-card ${hasSeed ? '' : 'disabled'}" onclick="plantSelectedSeed(${plotIdx}, '${key}')">
+                ${getCropStageSVG(key, 'ripe')}
+                <div class="sp-name">${c.icon} ${c.name}</div>
+                <div class="sp-qty">Kho hạt: <b>${qty}</b></div>
+                <div class="sp-time">💧 ${c.watersNeeded} lần • ⏱ ${formatRemainTime(c.waitSec)}</div>
+            </div>`;
+        }).join('');
     }
+    if (modal) modal.style.display = 'flex';
+}
+
+function closeSeedPicker() {
+    const modal = document.getElementById('seedPickerModal');
+    if (modal) modal.style.display = 'none';
+}
+
+function plantSelectedSeed(plotIdx, cropKey) {
+    const state = getFarmState();
+    const crop = CROPS_DB[cropKey];
+    const banner = document.getElementById('farmGuideBanner');
+    if (!crop.freeInfinite && (state.seeds[cropKey] || 0) <= 0) {
+        if (banner) banner.textContent = `⚠️ Bạn đã hết hạt ${crop.name}! Hãy vào 🏪 Cửa hàng để mua thêm nhé!`;
+        closeSeedPicker();
+        return;
+    }
+    if (!crop.freeInfinite) state.seeds[cropKey] -= 1;
+    state.plots[plotIdx] = { cropKey, waters: 0, nextWaterAt: 0, unlocked: true };
+    saveFarmState(state);
+    closeSeedPicker();
     renderFarmArena();
+    if (banner) banner.textContent = `🌰 Đã gieo ${crop.icon} ${crop.name} vào ô ${plotIdx + 1}! Chạm vào ô đất để tưới nước!`;
 }
 
 function handlePlotClick(plotIdx) {
@@ -1782,34 +1970,40 @@ function handlePlotClick(plotIdx) {
     const plot = state.plots[plotIdx];
     const banner = document.getElementById('farmGuideBanner');
     const now = Date.now();
+    const rule = PLOT_UNLOCK_RULES[plotIdx] || { type: 'free' };
 
-    // 1. Gieo hạt xuống đất trống
-    if (!plot.cropKey) {
-        const crop = CROPS_DB[selectedSeedToPlant];
-        if (!crop.freeInfinite && (state.seeds[selectedSeedToPlant] || 0) <= 0) {
-            if (banner) banner.textContent = `⚠️ Hết hạt ${crop.name}! Mở 🏪 Cửa hàng để mua thêm nhé!`;
-            return;
+    if (!plot.unlocked) {
+        if (rule.type === 'coin') {
+            if (state.coins < rule.cost) {
+                if (banner) banner.textContent = `🪙 Cần ${rule.cost} Xu để mở khóa Ô đất số ${plotIdx + 1} (Bạn đang có ${state.coins} Xu)!`;
+                return;
+            }
+            if (confirm(`Mở khóa Ô đất số ${plotIdx + 1} với giá ${rule.cost} Xu?`)) {
+                state.coins -= rule.cost;
+                plot.unlocked = true;
+                saveFarmState(state);
+                renderFarmArena();
+                if (banner) banner.textContent = `🎉 Đã mở khóa thành công Ô đất số ${plotIdx + 1}!`;
+            }
+        } else {
+            alert(`🎬 Ô đất số ${plotIdx + 1} là ô đặc biệt mở khóa bằng Xem Quảng Cáo (tính năng quảng cáo đang được tích hợp ở bản phát hành chính thức!).`);
         }
-        if (!crop.freeInfinite) state.seeds[selectedSeedToPlant] -= 1;
-        plot.cropKey = selectedSeedToPlant;
-        plot.waters = 0;
-        plot.nextWaterAt = 0;
-        saveFarmState(state);
-        renderFarmArena();
-        if (banner) banner.textContent = `🌰 Đã gieo ${crop.icon} ${crop.name}! Chạm vào ô đất để tưới nước lần 1!`;
+        return;
+    }
+
+    if (!plot.cropKey) {
+        openSeedPicker(plotIdx);
         return;
     }
 
     const plantedCrop = CROPS_DB[plot.cropKey];
     const remainSec = Math.max(0, Math.ceil(((plot.nextWaterAt || 0) - now) / 1000));
 
-    // 2. Chống spam: Cây đang hấp thụ nước chưa hết thời gian chờ
     if (remainSec > 0) {
-        if (banner) banner.textContent = `⏳ ${plantedCrop.icon} ${plantedCrop.name} đang hút nước và lớn lên, đợi thêm ${formatRemainTime(remainSec)} nhé!`;
+        if (banner) banner.textContent = `⏳ ${plantedCrop.icon} ${plantedCrop.name} đang lớn lên, đợi thêm ${formatRemainTime(remainSec)} nhé!`;
         return;
     }
 
-    // 3. Tưới nước từng giai đoạn (mỗi lần tưới kích hoạt đồng hồ chờ riêng của cây)
     if (plot.waters < plantedCrop.watersNeeded) {
         plot.waters += 1;
         plot.nextWaterAt = now + plantedCrop.waitSec * 1000;
@@ -1817,18 +2011,17 @@ function handlePlotClick(plotIdx) {
         renderFarmArena();
         if (banner) {
             banner.textContent = plot.waters >= plantedCrop.watersNeeded
-                ? `💧 Đã tưới đủ ${plantedCrop.watersNeeded}/${plantedCrop.watersNeeded} lần! Chờ ${formatRemainTime(plantedCrop.waitSec)} nữa để cây chín rộ!`
+                ? `💧 Đã tưới đủ ${plantedCrop.watersNeeded}/${plantedCrop.watersNeeded} lần! Chờ ${formatRemainTime(plantedCrop.waitSec)} để thu hoạch!`
                 : `💧 Đã tưới lần ${plot.waters}/${plantedCrop.watersNeeded}! Chờ ${formatRemainTime(plantedCrop.waitSec)} để tưới tiếp!`;
         }
         return;
     }
 
-    // 4. Thu hoạch khi đã tưới đủ & hết thời gian chín
     state.crops[plot.cropKey] = (state.crops[plot.cropKey] || 0) + 1;
-    state.plots[plotIdx] = { cropKey: null, waters: 0, nextWaterAt: 0 };
+    state.plots[plotIdx] = { cropKey: null, waters: 0, nextWaterAt: 0, unlocked: true };
     saveFarmState(state);
     renderFarmArena();
-    if (banner) banner.textContent = `🧺 Thu hoạch thành công 1 ${plantedCrop.icon} ${plantedCrop.name} vào 🎒 Kho Lương Thực!`;
+    if (banner) banner.textContent = `🧺 Thu hoạch thành công 1 ${plantedCrop.icon} ${plantedCrop.name} vào 🎒 Kho Đồ!`;
 }
 
 function openGardenModal(defaultTab = 'inventory') {
@@ -2133,3 +2326,17 @@ async function checkRealTimeWeatherAndNotify(shouldNotify = true) {
         }
     }
 }
+window.addEventListener('DOMContentLoaded', () => {
+    setTimeout(async () => {
+        try {
+            if (window.Capacitor?.Plugins?.LocalNotifications) {
+                const check = await window.Capacitor.Plugins.LocalNotifications.checkPermissions();
+                if (check.display !== 'granted') {
+                    await window.Capacitor.Plugins.LocalNotifications.requestPermissions();
+                }
+            } else if ("Notification" in window && Notification.permission === "default") {
+                await Notification.requestPermission();
+            }
+        } catch (e) {}
+    }, 1500);
+});
